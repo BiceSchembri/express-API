@@ -14,7 +14,7 @@ const connectToDatabase = async () => {
   try {
     connection = await pool.getConnection();
     let data = await connection.query(
-      `SELECT * FROM tattoo_collection.tattoos`
+      `SELECT title, description, price_in_EUR FROM tattoo_collection.tattoos`
     );
     return data;
   } catch (err) {
@@ -27,8 +27,7 @@ const connectToDatabase = async () => {
 // Show all data from database (API)
 router.get('/show-all', async (req, res) => {
   let data = await connectToDatabase();
-  // res.send(data);
-  res.send('connected to database');
+  res.send(data);
 });
 
 // Export the router
