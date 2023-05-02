@@ -5,7 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Import Router
-const router = require('./routes/router.js');
+const router = require('./router.js');
 
 // Set the Express app
 const app = express();
@@ -13,12 +13,9 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-// Serve static files (not needed for this exercise)
-// app.use(express.static('./'));
-
 // Set PORT and HOST from .env file, with hard-coded alternative
-const port = process.env.PORT || 3001;
-// const host = process.env.HOST || 'localhost';
+const port = process.env.PORT;
+const host = process.env.HOST;
 
 // Use Router
 app.use('/', router);
