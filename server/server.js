@@ -4,6 +4,9 @@ const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+// Import Router
+const router = require('./routes/router.js');
+
 // Set the Express app
 const app = express();
 app.use(cors());
@@ -17,10 +20,8 @@ dotenv.config();
 const port = process.env.PORT || 3001;
 // const host = process.env.HOST || 'localhost';
 
-// GET request
-app.get('/', (req, res) => {
-  res.send('GET request was sent successfully');
-});
+// Use Router
+app.use('/', router);
 
 // Port listener
 app.listen(port, () =>
