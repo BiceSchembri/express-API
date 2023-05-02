@@ -1,0 +1,31 @@
+{
+  "name": "verou-4-backend-express-intro-biceschembri",
+  "version": "1.0.0",
+  "description": "Build an e-shop using Express.js",
+  "main": "server.mjs",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.mjs",
+    "dev": "nodemon server.mjs"
+
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri.git"
+  },
+  "keywords": [],
+  "author": "Beatrice Schembri",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri/issues"
+  },
+  "homepage": "https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
