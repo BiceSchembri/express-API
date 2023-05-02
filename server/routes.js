@@ -1,5 +1,5 @@
 // Core modules
-const express = require('express'); //
+const express = require('express');
 const router = express.Router();
 const productController = require('./productController.js');
 
@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/products', productController.getProducts);
+router.get('/products/:id', productController.getProduct);
 // router.post('/', controllers.postProduct);
 // router.put('/:id', controllers.updateProduct);
 // router.delete('/:id', controllers.deleteProduct);
