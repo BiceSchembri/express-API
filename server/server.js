@@ -10,12 +10,12 @@ app.use(cors());
 app.use(express.json());
 dotenv.config();
 
-// serving static files (not needed for this exercise)
+// Serve static files (not needed for this exercise)
 // app.use(express.static('./'));
 
-// Set PORT
+// Set PORT and HOST from .env file, with hard-coded alternative
 const port = process.env.PORT || 3001;
-// const host = process.env.HOST;
+// const host = process.env.HOST || 'localhost';
 
 // GET request
 app.get('/', (req, res) => {
