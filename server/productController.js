@@ -4,7 +4,7 @@ const pool = require('./db.js');
 // Controllers
 const productController = {
   // Show all records (eshop products / tattoos)
-  getAll: async (res) => {
+  getAll: async (req, res) => {
     let connection;
     try {
       connection = await pool.getConnection();
