@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const productController = require('./productController.js');
 const validation = require('./validation.middleware.js');
+const notFound = require('./notFound.middleware.js');
 
 // Show landing page
 router.get('/', (req, res) => {
@@ -10,7 +11,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/products', productController.getAll);
-router.get('/products/:id', productController.getOne);
+router.get('/products/:id', notFound, productController.getOne);
 router.post('/products/create', validation, productController.create);
 router.put('/products/:id', validation, productController.update);
 router.delete('/products/:id', productController.delete);

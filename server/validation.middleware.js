@@ -4,6 +4,7 @@ const validation = (req, res, next) => {
   // Check that required fields are not empty
   if (!title || !description || !price_in_EUR) {
     let err = new Error('Title, description and price cannot be empty');
+    console.log(err.message);
     res.status(400).send(err.message);
     return;
   }
