@@ -12,6 +12,7 @@ const productController = {
         `SELECT title, description, image, price_in_EUR FROM tattoo_collection.tattoos`
       );
       console.log(`Retrieved ${data.length} rows from the database`);
+      res.setHeader('Content-Type', 'application/json');
       res.send(data);
     } catch (err) {
       console.error('Failed to fetch records from database:', err);
@@ -37,6 +38,7 @@ const productController = {
         `SELECT title, description, image, price_in_EUR FROM tattoo_collection.tattoos WHERE id=?`,
         [id]
       );
+      res.setHeader('Content-Type', 'application/json');
       res.send(data);
     } catch (err) {
       console.error('Failed to fetch record in the database:', err);
