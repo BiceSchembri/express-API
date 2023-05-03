@@ -4,16 +4,16 @@ const pool = require('./db.js');
 // Controllers
 const productController = {
   // Show all records (eshop products / tattoos)
-  getAll: async (req, res) => {
+  getAll: async (res) => {
     let connection;
     try {
       connection = await pool.getConnection();
-      let data = await connection.query(
+      let result = await connection.query(
         `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos`
       );
-      console.log(`Retrieved ${data.length} rows from the database`);
+      console.log(`Retrieved ${result.length} rows from the database`);
       res.setHeader('Content-Type', 'application/json');
-      res.send(data);
+      res.send(result);
     } catch (err) {
       console.error('Failed to fetch records from database:', err);
       res
@@ -32,18 +32,23 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let id = req.params.id;
-      let data = await connection.query(
+      let result = await connection.query(
         `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
       );
-      res.setHeader('Content-Type', 'application/json');
-      res.send(data);
+      if (!result.affectedRows) {
+        console.log('Record not found');
+        res.status(404).send('Record not found');
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(result);
+      }
     } catch (err) {
-      console.error('Failed to fetch record in the database:', err);
+      console.error('Failed to fetch record from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to fetch record in the database'
+          '500 - Internal Server Error. Failed to fetch record from database'
         );
     } finally {
       if (connection) await connection.release();
@@ -61,17 +66,18 @@ const productController = {
         [id]
       );
       let result = await stmt.execute(id);
-      if (result.affectedRows === 0) {
+      if (!result.affectedRows) {
+        console.log('Record not found');
         res.status(404).send('Record not found');
       } else {
         res.send('Record deleted successfully');
       }
     } catch (err) {
-      console.error('Failed to delete record from the database:', err);
+      console.error('Failed to delete record from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to delete record from the database'
+          '500 - Internal Server Error. Failed to delete record from database'
         );
     } finally {
       if (connection) await connection.release();
@@ -137,14 +143,13 @@ const productController = {
         image,
         price_in_EUR,
       };
-      res.setHeader('Content-Type', 'application/json');
-      res.send(result);
-
-      // if (result.affectedRows === 0) {
-      //   res.status(404).send('Record not found');
-      // } else {
-      //   res.send('Record updated successfully');
-      // }
+      if (!data.affectedRows) {
+        console.log('Record not found');
+        res.status(404).send('Record not found');
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(result);
+      }
     } catch (err) {
       console.error('Failed to update record in the database:', err);
       res
