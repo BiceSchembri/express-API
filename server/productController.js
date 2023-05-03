@@ -9,7 +9,7 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let data = await connection.query(
-        `SELECT title, description, image, price_in_EUR FROM tattoo_collection.tattoos`
+        `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos`
       );
       console.log(`Retrieved ${data.length} rows from the database`);
       res.setHeader('Content-Type', 'application/json');
@@ -33,7 +33,7 @@ const productController = {
       connection = await pool.getConnection();
       let id = req.params.id;
       let data = await connection.query(
-        `SELECT title, description, image, price_in_EUR FROM tattoo_collection.tattoos WHERE id=?`,
+        `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
       );
       res.setHeader('Content-Type', 'application/json');
@@ -57,7 +57,7 @@ const productController = {
       connection = await pool.getConnection();
       let id = req.params.id;
       let stmt = await connection.prepare(
-        `DELETE FROM tattoo_collection.tattoos WHERE id = ?`,
+        `DELETE FROM tattoo_eshop.tattoos WHERE id = ?`,
         [id]
       );
       let result = await stmt.execute(id);
@@ -92,7 +92,7 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
-        `INSERT INTO tattoo_collection.tattoos (title, description, image, price_in_EUR) VALUES (?, ?, ?, ?)`,
+        `INSERT INTO tattoo_eshop.tattoos (title, description, image, price_in_EUR) VALUES (?, ?, ?, ?)`,
         [title, description, image, price_in_EUR]
       );
       let id = result.insertId;
@@ -127,7 +127,7 @@ const productController = {
     try {
       connection = await pool.getConnection();
       await connection.execute(
-        `UPDATE tattoo_collection.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id= ?`,
+        `UPDATE tattoo_eshop.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id= ?`,
         [title, description, image || null, price_in_EUR, id]
       );
       let result = {
