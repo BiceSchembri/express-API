@@ -128,7 +128,7 @@ const productController = {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_collection.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id= ?`,
-        [title, description, image, price_in_EUR, id]
+        [title, description, image || null, price_in_EUR, id]
       );
       let result = {
         id: Number(id),
