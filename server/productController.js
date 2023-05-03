@@ -3,7 +3,7 @@ const pool = require('./db.js');
 
 // Controllers
 const productController = {
-  // Show all products (tattoos)
+  // Show all records (eshop products / tattoos)
   getAll: async (req, res) => {
     let connection;
     try {
@@ -21,14 +21,12 @@ const productController = {
         .send(
           '500 - Internal Server Error. Failed to fetch records from database'
         );
-      // throw err;
     } finally {
-      // if (connection) connection.end();
       if (connection) await connection.release();
     }
   },
 
-  // Show selected product
+  // Show selected record
   getOne: async (req, res) => {
     let connection;
     try {
@@ -52,7 +50,7 @@ const productController = {
     }
   },
 
-  // Delete selected product
+  // Delete selected record
   delete: async (req, res) => {
     let connection;
     try {
@@ -80,46 +78,57 @@ const productController = {
     }
   },
 
-  //   // Create new product
-  // create:async (req, res) => {
-  // let connection;
+  //  Create new record
+  create: async (req, res) => {
+    // Get the request input
+    let { title, description, image, price_in_EUR } = req.body;
+    // Check that required fields are not empty
+    if (!title || !description || !price_in_EUR) {
+      let err = new Error('Title, description and price cannot be empty');
+      res.status(400).send(err.message);
+      return;
+    }
+    let connection;
+    try {
+      connection = await pool.getConnection();
+      let result = await connection.execute(
+        `INSERT INTO tattoo_collection.tattoos (title, description, image, price_in_EUR) VALUES (?, ?, ?, ?)`,
+        [title, description, image, price_in_EUR]
+      );
+      let id = result.insertId;
+      res.setHeader('Content-Type', 'application/json');
+      res.send({ id: Number(id), title, description, image, price_in_EUR });
+    } catch (err) {
+      console.error('Failed to create new record in the database:', err);
+      res
+        .status(500)
+        .send(
+          '500 - Internal Server Error. Failed to create new record in the database'
+        );
+    } finally {
+      if (connection) await connection.release();
+    }
+  },
+
+  // Update selected record
+  //   update: async (req, res) => {
+  //     let connection;
   // try {
-  //   connection = await pool.getConnection();
-
-  //     let {title, description, image, price_in_EUR}
-
-  //     let productId = req.params.id;
-  //     let data = await connection.query(
-  //       `SELECT title, description, image, price_in_EUR FROM tattoo_collection.tattoos WHERE id=?`,
-  //       [productId]
-  //     );
-  //     res.send(data);
-  //   } catch (err) {
-  //     console.error('Failed to fetch record in the database:', err);
-  //     res
-  //     .status(500)
-  //     .send('500 - Internal Server Error. Failed to fetch record in the database');
-  //   } finally {
-  //     if (connection) await connection.release();
-  //   }
-  // },
-
-  // Update selected product
-  // updateProduct: async (req, res) => {
-  //   let connection;
-  //   try {
   //     connection = await pool.getConnection();
-  //     let productId = req.params.id;
-  //     const data = await connection.query(
-  //       `UPDATE tattoos SET title=?, description=?, price_in_EUR=? WHERE id=?` [title, description, new Date(), id],
-  //       [productId]
+  //     const {title, description} = req.body;
+  //     if (!title || !description) {
+  //         throw new Error("title and description are required");
+  //     }
+  //     await connection.query(
+  //         `INSERT INTO brilliant_minds.ideas (title, description) VALUES (?, ?)`,
+  //         [title, description]
   //     );
-  //     res.send(data);
-  //   } catch (err) {
+  //     res.status(200);
+  // } catch (err) {
   //     throw err;
-  //   } finally {
-  //     if (connection) connection.end();
-  //   }
+  // } finally {
+  //     if(connection) connection.end();
+  // }
   // },
 };
 

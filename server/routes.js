@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
 
 router.get('/products', productController.getAll);
 router.get('/products/:id', productController.getOne);
-// router.post('/', controllers.postProduct);
-// router.put('/:id', controllers.updateProduct);
+router.post('/products/create', productController.create);
+// router.put('/products/:id', productController.update);
 router.delete('/products/:id', productController.delete);
 
 // Export the router
