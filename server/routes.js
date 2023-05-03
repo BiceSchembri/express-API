@@ -7,11 +7,15 @@ const notFound = require('./notFound.middleware.js');
 
 // Show landing page
 router.get('/', (req, res) => {
-  res.send('This is the landing page of my tattoo e-shop. Welcome!');
+  res.send(
+    `Welcome!
+    <br>
+    This is the landing page of my tattoo e-shop.`
+  );
 });
 
 router.get('/products', productController.getAll);
-router.get('/products/:id', notFound, productController.getOne);
+router.get('/products/:id', productController.getOne);
 router.post('/products/create', validation, productController.create);
 router.put('/products/:id', validation, productController.update);
 router.delete('/products/:id', productController.delete);
