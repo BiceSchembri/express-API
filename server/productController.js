@@ -1,4 +1,4 @@
-// Core modules
+// Imports
 const pool = require('./db.js');
 
 // Controllers
@@ -86,14 +86,6 @@ const productController = {
 
   //  Create new record
   create: async (req, res) => {
-    // Get the request input
-    let { title, description, image, price_in_EUR } = req.body;
-    // Check that required fields are not empty
-    if (!title || !description || !price_in_EUR) {
-      let err = new Error('Title, description and price cannot be empty');
-      res.status(400).send(err.message);
-      return;
-    }
     let connection;
     try {
       connection = await pool.getConnection();
@@ -118,17 +110,7 @@ const productController = {
 
   // Update selected record
   update: async (req, res) => {
-    // Get the request input
-    let { title, description, image, price_in_EUR } = req.body;
     let id = req.params.id;
-
-    // Check that required fields are not empty
-    if (!title || !description || !price_in_EUR) {
-      let err = new Error('Title, description and price cannot be empty');
-      res.status(400).send(err.message);
-      return;
-    }
-
     let connection;
     try {
       connection = await pool.getConnection();
