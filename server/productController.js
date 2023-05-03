@@ -111,25 +111,51 @@ const productController = {
   },
 
   // Update selected record
-  //   update: async (req, res) => {
-  //     let connection;
-  // try {
-  //     connection = await pool.getConnection();
-  //     const {title, description} = req.body;
-  //     if (!title || !description) {
-  //         throw new Error("title and description are required");
-  //     }
-  //     await connection.query(
-  //         `INSERT INTO brilliant_minds.ideas (title, description) VALUES (?, ?)`,
-  //         [title, description]
-  //     );
-  //     res.status(200);
-  // } catch (err) {
-  //     throw err;
-  // } finally {
-  //     if(connection) connection.end();
-  // }
-  // },
+  update: async (req, res) => {
+    // Get the request input
+    let { title, description, image, price_in_EUR } = req.body;
+    let id = req.params.id;
+
+    // Check that required fields are not empty
+    if (!title || !description || !price_in_EUR) {
+      let err = new Error('Title, description and price cannot be empty');
+      res.status(400).send(err.message);
+      return;
+    }
+
+    let connection;
+    try {
+      connection = await pool.getConnection();
+      await connection.execute(
+        `UPDATE tattoo_collection.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id= ?`,
+        [title, description, image, price_in_EUR, id]
+      );
+      let result = {
+        id: Number(id),
+        title,
+        description,
+        image,
+        price_in_EUR,
+      };
+      res.setHeader('Content-Type', 'application/json');
+      res.send(result);
+
+      // if (result.affectedRows === 0) {
+      //   res.status(404).send('Record not found');
+      // } else {
+      //   res.send('Record updated successfully');
+      // }
+    } catch (err) {
+      console.error('Failed to update record in the database:', err);
+      res
+        .status(500)
+        .send(
+          '500 - Internal Server Error. Failed to update record in the database'
+        );
+    } finally {
+      if (connection) await connection.release();
+    }
+  },
 };
 
 // Export the controllers
