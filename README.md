@@ -6,15 +6,17 @@
 
 This project's aim is to build a simple e-shop with CRUD logic using **Express.js**.
 
-Only the backend part was developed for this project, meaning no HTML/CSS files (client side) were added.
+Only the backend part was developed, meaning no HTML/CSS files (client side) were added.
 
 For development and testing purposes, I used the [**Postman API platform**](https://www.postman.com/).
+
+The website would allow users to choose tattoo designs available in a tattoo parlour. Tattoos (in other words, the products) are stored in a database (each one has a title, description and some other information). New records can be created, and existing ones can updated, deleted.
 
 --
 
 ## Requirements
 
-In order to run this project on your machine, you will need:
+In order to run this project on your computer, you will need:
 
 - Node.js
 - a package manager
@@ -37,7 +39,7 @@ It should have been automatically installed with NodeJs. In your terminal, check
 
 ### Database
 
-...
+You will need to set up a database containing the records (or products, or tattoos in this case) you want to display on your page.
 
 --
 
@@ -84,13 +86,48 @@ From your terminal, go to the server folder and run:
 
 to start running the local server.
 
-Open http://localhost:3001 in your browser.
+--
+
+## Usage
+
+Once the server is running, open http://localhost:3001 in your browser.
+
+It should show you the landing page with a short welcome text.
+
+Navigate to http://localhost:3001/products to see the list of products / tattoos that were added in your database.
+
+Navigate to http://localhost:3001/products/ and add the product **id** at the end to show a specific tattoo (for example, http://localhost:3001/products/10). If a tattoo with that id does not exist in the database, a "Record not found" message will be shown.
+
+Use **Postman** to create, delete, update products in your database.
+
+Create new routes and specify
+
+Body --> raw --> JSON
+
+### Endpoints
+
+- GET /products - Get a list of all products
+- POST /products - Create a new product
+- GET /products/:id - Get details for a specific product
+- PUT /products/:id - Update a specific product
+- DELETE /products/:id - Delete a specific product
+
+### Example requests
+
+To create a new product:
+POST /products
+{
+"title": "My tattoo design",
+"description": "A beautiful and unique tattoo design",
+"image": null
+"price_in_EUR": "100",
+}
 
 --
 
 ## Main Features
 
-A landing page
+Route A landing page
 A shop page (with all products)
 The whole CRUD logic for the products
 Have a dynamic route for detail pages
