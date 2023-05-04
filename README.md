@@ -18,10 +18,24 @@ In order to run this project on your machine, you will need:
 
 - Node.js
 - a package manager
+- a database
 
-...
+### Node.js
 
-You will also have to configure your own database connection.
+Open your terminal or command interface. Type:
+
+`node --version` or `node -v`
+
+Is it installed? If not, follow the steps on [NodeJs](https://nodejs.org/en/) website.
+Choose a version (LTS recommended) and follow the default options when installing.
+
+### Package Manager
+
+It should have been automatically installed with NodeJs. In your terminal, check of you have it by typing:
+
+`npm --version` or `npm -v`
+
+### Database
 
 ...
 
@@ -43,7 +57,7 @@ Install the necessary dependencies in the root of your project by running:
 
 `npm init` and then answer the questions to initialize the **package.json** file.
 
-Now, create a new database called **tattoo_eshop** It should contain the following tables:
+Now, create a new database called **tattoo_eshop**. It should contain the following tables:
 
 ...
 ...
@@ -76,7 +90,16 @@ Open http://localhost:3001 in your browser.
 
 ## Main Features
 
-...
+A landing page
+A shop page (with all products)
+The whole CRUD logic for the products
+Have a dynamic route for detail pages
+Grouping routes with Express routings
+Create a database connection
+Add validation middleware to POST routes that receive form information (check if body parameters exist and are all consistent when submitting a front end form)
+Correct (code) status responses
+Generate a 404 response on all non-existing routes
+Send data back as JSON
 
 --
 
