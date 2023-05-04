@@ -85,9 +85,9 @@ const productController = {
   },
 
   // Show create form page (dummy data)
-  createPage: async (req, res) => {
-    res.send('On this page you will find a form to create a new record');
-  },
+  // createPage: async (req, res) => {
+  //   res.send('On this page you will find a form to create a new record');
+  // },
 
   //  Create new record
   create: async (req, res) => {

@@ -14,8 +14,11 @@ router.route('/').get((req, res) => {
   );
 });
 
-// Show all products
-router.route('/products').get(productController.getAll);
+// Show all products + Create new product
+router
+  .route('/products')
+  .get(productController.getAll)
+  .post(validation, productController.create);
 
 // Show, update, delete single product
 router
@@ -24,14 +27,13 @@ router
   .put(validation, productController.update)
   .delete(productController.delete);
 
-// Create new product
-router
-  .route('/create')
-  .get(productController.createPage)
-  .post(validation, productController.create);
-
 // Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
 router.use(notFound);
 
 // Export the router
 module.exports = router;
+
+// Create new product
+// router
+//   .route('/create')
+//   .get(productController.createPage)
