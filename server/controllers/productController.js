@@ -1,5 +1,5 @@
 // Imports
-const pool = require('./db.js');
+const pool = require('../configs/db.js');
 
 // Controllers
 const productController = {

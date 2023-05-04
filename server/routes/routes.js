@@ -1,9 +1,9 @@
 // Core modules
 const express = require('express');
 const router = express.Router();
-const productController = require('./productController.js');
-const validation = require('./validation.middleware.js');
-const notFound = require('./notFound.middleware.js');
+const productController = require('../controllers/productController');
+const validation = require('../middlewares/validation.middleware');
+const notFound = require('../middlewares/notFound.middleware');
 
 // Show landing page
 router.get('/', (req, res) => {

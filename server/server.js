@@ -5,7 +5,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Import Router
-const router = require('./routes.js');
+const router = require('./routes/routes');
 
 // Set the Express app
 const app = express();
