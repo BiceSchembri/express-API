@@ -1,8 +1,14 @@
 # Tattoo E-Shop in Express.js
 
---
-
 ## Introduction
+
+Developed by: Beatrice Schembri
+
+Date: May 2023
+
+Link to the deployed version: [link](link)
+
+---
 
 This project's aim is to build a simple e-shop with CRUD logic using **Express.js**.
 
@@ -11,8 +17,6 @@ Only the backend part was developed, meaning no HTML/CSS files (client side) wer
 For development and testing purposes, I used the [**Postman API platform**](https://www.postman.com/).
 
 The website would allow users to choose tattoo designs available in a tattoo parlour. Tattoos (in other words, the products) are stored in a database (each one has a title, description and some other information). New records can be created, and existing ones can updated, deleted.
-
---
 
 ## Requirements
 
@@ -41,8 +45,6 @@ It should have been automatically installed with NodeJs. In your terminal, check
 
 You will need to set up a database containing the records (or products, or tattoos in this case) you want to display on your page.
 
---
-
 ## Installation
 
 Open your terminal and clone the repository:
@@ -59,34 +61,43 @@ Install the necessary dependencies in the root of your project by running:
 
 `npm init` and then answer the questions to initialize the **package.json** file.
 
+---
+
 Now, create a new database called **tattoo_eshop**. It should contain the following tables:
 
 ...
 ...
 ...
 
+---
+
 Create a new **.env** file in your root folder. Copy the contents of the **.env.example** in it. Then set the configuration and the database connection (you can change them according to your preferred settings).
 
-HOST=**localhost**
-PORT=**3001**
-DB_NAME=**tattoo_eshop**
-DB_USER=**root**
-DB_PORT=**3306**
-DB_HOST=**localhost**
-DB_PASSWORD=**your password here**
+```HOST=**localhost**
+PORT= 3001
+DB_NAME= tattoo_eshop
+DB_USER= root
+DB_PORT= 3306
+DB_HOST= localhost
+DB_PASSWORD= (your password here)
+```
 
-**_IMPORTANT!_** Add a **.gitignore** file to your project folder if you don't have one already.
+---
 
-- Add the **.env** file to your **.gitignore** to avoid sharing your password if you decide to push the project to a remote repository!
-- Add **node_modules** as well to avoid pushing them remotely (they're very heavy).
+**_IMPORTANT!_**
+
+Add a **.gitignore** file to your project folder if you don't have one already. In it, add:
+
+- the **.env** file you created, to avoid sharing your password if you decide to push the project to a remote repository;
+- the **node_modules** (they're very heavy!).
+
+---
 
 From your terminal, go to the server folder and run:
 
 `npm run dev`
 
 to start running the local server.
-
---
 
 ## Usage
 
@@ -115,29 +126,30 @@ Body --> raw --> JSON
 ### Example requests
 
 To create a new product:
-POST /products
+method: POST
+route: /products
+
+```
 {
 "title": "My tattoo design",
 "description": "A beautiful and unique tattoo design",
 "image": null
 "price_in_EUR": "100",
 }
-
---
+```
 
 ## Main Features
 
-Route A landing page
-A shop page (with all products)
-The whole CRUD logic for the products
-Have a dynamic route for detail pages
-Grouping routes with Express routings
-Create a database connection
-Add validation middleware to POST routes that receive form information (check if body parameters exist and are all consistent when submitting a front end form)
-Correct (code) status responses
-Generate a 404 response on all non-existing routes
-Send data back as JSON
+- Database connection
+- API, data is sent back as JSON
+- CRUD logic
+- Dynamic routes
+- Express routings to group routes
+- MVC structure
+- Middleware to validate POST requests
+- Middleware for non-existing routes (404 error)
+- Code status responses
 
---
+---
 
 Beatrice Schembri - 2023 - BeCode Ghent
