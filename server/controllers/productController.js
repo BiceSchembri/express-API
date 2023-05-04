@@ -87,6 +87,8 @@ const productController = {
 
   //  Create new record
   create: async (req, res) => {
+    // Get the request input
+    let { title, description, image, price_in_EUR } = req.body;
     let connection;
     try {
       connection = await pool.getConnection();
@@ -111,12 +113,14 @@ const productController = {
 
   // Update selected record
   update: async (req, res) => {
+    // Get the request input
+    let { title, description, image, price_in_EUR } = req.body;
     let id = req.params.id;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
-        `UPDATE tattoo_eshop.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id= ?`,
+        `UPDATE tattoo_eshop.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id=?`,
         [title, description, image || null, price_in_EUR, id]
       );
       let result = {
@@ -126,13 +130,13 @@ const productController = {
         image,
         price_in_EUR,
       };
-      if (!data.affectedRows) {
-        console.log('Record not found');
-        res.status(404).send('Record not found');
-      } else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(result);
-      }
+      // if (!result.affectedRows) {
+      //   console.log('Record not found');
+      //   res.status(404).send('Record not found');
+      // } else {
+      res.setHeader('Content-Type', 'application/json');
+      res.send(result);
+      // }
     } catch (err) {
       console.error('Failed to update record in the database:', err);
       res
