@@ -14,7 +14,10 @@ For development and testing purposes, I used the [**Postman API platform**](http
 
 ## Requirements
 
-In order to run this project on your machine, you will need
+In order to run this project on your machine, you will need:
+
+- Node.js
+- a package manager
 
 ...
 
@@ -30,15 +33,15 @@ Open your terminal and clone the repository:
 
 `git clone` followed by the name of the repo (use the SSH keys)
 
-Open the repo folder:
+Navigate to the newly cloned project folder:
 
 `cd ...`
 
 Install the necessary dependencies in the root of your project by running:
 
-`npm i`
-or
-`npm install`
+`npm init -y` to use the default setup, OR
+
+`npm init` and then answer the questions to initialize the **package.json** file.
 
 Now, create a new database called **tattoo_eshop** It should contain the following tables:
 
@@ -56,10 +59,16 @@ DB_PORT=**3306**
 DB_HOST=**localhost**
 DB_PASSWORD=**your password here**
 
-**_IMPORTANT!_** Add a `.gitignore` file to your project folder if you don't have one already.
+**_IMPORTANT!_** Add a **.gitignore** file to your project folder if you don't have one already.
 
-- Add the `.env` file to your `.gitignore` to avoid sharing your password if you decide to push the project to a remote repository!
-- Add `node_modules` as well to avoid pushing them remotely (they're very heavy).
+- Add the **.env** file to your **.gitignore** to avoid sharing your password if you decide to push the project to a remote repository!
+- Add **node_modules** as well to avoid pushing them remotely (they're very heavy).
+
+From your terminal, go to the server folder and run:
+
+`npm run dev`
+
+to start running the local server.
 
 Open http://localhost:3001 in your browser.
 
