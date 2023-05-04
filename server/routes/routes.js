@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const validation = require('../middlewares/validation.middleware');
-const notFound = require('../middlewares/notFound.middleware');
+// const notFound = require('../middlewares/notFound.middleware');
 
 // Show landing page
 router.get('/', (req, res) => {
@@ -14,11 +14,15 @@ router.get('/', (req, res) => {
   );
 });
 
-router.get('/products', productController.getAll);
-router.get('/products/:id', productController.getOne);
-router.post('/products/create', validation, productController.create);
-router.put('/products/:id', validation, productController.update);
-router.delete('/products/:id', productController.delete);
+router.route('/products').get(productController.getAll);
+
+router
+  .route('/products/:id')
+  .get(productController.getOne)
+  .put(validation, productController.update)
+  .delete(productController.delete);
+
+router.route('/products/create').post(validation, productController.create);
 
 // Add a 404 middleware
 router.use((req, res, next) => {
