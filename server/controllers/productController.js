@@ -36,14 +36,13 @@ const productController = {
         `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
       );
-      console.log(`Retrieved record with id#${id} from the database`);
-      // if (!result.affectedRows) {
-      //   console.log('Record not found');
-      //   res.status(404).send('Record not found');
-      // } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(result);
-      // }
+      if (!result.length) {
+        console.log('Record not found');
+        res.status(404).send('Record not found');
+      } else {
+        res.setHeader('Content-Type', 'application/json');
+        res.send(result);
+      }
     } catch (err) {
       console.error('Failed to fetch record from database:', err);
       res
@@ -83,6 +82,11 @@ const productController = {
     } finally {
       if (connection) await connection.release();
     }
+  },
+
+  // Show create form page (dummy data)
+  createPage: async (req, res) => {
+    res.send('On this page you will find a form to create a new record');
   },
 
   //  Create new record
