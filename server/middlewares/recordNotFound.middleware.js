@@ -11,17 +11,17 @@ const recordNotFound = async (req, res, next) => {
       [id]
     );
     if (!result.length) {
-      console.log('Record not found');
-      res.status(404).send('Record not found');
+      console.log('Record not found, sorry');
+      res.status(404).send('Record not found, sorry');
     } else {
       next();
     }
   } catch (err) {
-    console.error('Failed to fetch record from database:', err);
+    console.error('Failed to fetch record from database:', err, 'sorry');
     res
       .status(500)
       .send(
-        '500 - Internal Server Error. Failed to fetch record from database'
+        '500 - Internal Server Error. Failed to fetch record from database. Sorry'
       );
   } finally {
     if (connection) await connection.release();
