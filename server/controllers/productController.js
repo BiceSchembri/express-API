@@ -58,13 +58,8 @@ const productController = {
         `DELETE FROM tattoo_eshop.tattoos WHERE id = ?`,
         [id]
       );
-      let result = await stmt.execute(id);
-      if (!result.affectedRows) {
-        console.log('Record not found');
-        res.status(404).send('Record not found');
-      } else {
-        res.send('Record deleted successfully');
-      }
+      await stmt.execute(id);
+      res.send('Record deleted successfully');
     } catch (err) {
       console.error('Failed to delete record from database:', err);
       res
