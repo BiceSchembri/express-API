@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const productController = require('../controllers/productController');
 const tattooFormValidation = require('../middlewares/tattooFormValidation.middleware');
-const pageNotFound = require('../middlewares/pageNotFound.middleware');
+const recordNotFound = require('../middlewares/recordNotFound.middleware');
 
 // Show landing page
 router.route('/').get((req, res) => {
@@ -26,9 +26,6 @@ router
   .get(productController.getOne)
   .put(tattooFormValidation, productController.update)
   .delete(productController.delete);
-
-// Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
-router.use(pageNotFound);
 
 // Export the router
 module.exports = router;

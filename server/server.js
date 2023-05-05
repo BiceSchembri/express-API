@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 
 // Import Router
 const router = require('./routes/routes');
+const pageNotFound = require('./middlewares/pageNotFound.middleware');
 
 // Set the Express app
 const app = express();
@@ -19,6 +20,9 @@ const port = process.env.PORT;
 
 // Use Router
 app.use('/', router);
+
+// Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
+router.use(pageNotFound);
 
 // Port listener
 app.listen(port, () =>

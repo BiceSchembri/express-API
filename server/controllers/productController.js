@@ -29,9 +29,9 @@ const productController = {
   // Show selected record
   getOne: async (req, res) => {
     let connection;
+    let id = req.params.id;
     try {
       connection = await pool.getConnection();
-      let id = req.params.id;
       let result = await connection.query(
         `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
