@@ -7,15 +7,14 @@ const recordNotFound = async (req, res, next) => {
   try {
     connection = await pool.getConnection();
     let result = await connection.query(
-      `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
+      `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
       [id]
     );
     if (!result.length) {
       console.log('Record not found');
       res.status(404).send('Record not found');
     } else {
-      res.setHeader('Content-Type', 'application/json');
-      res.send(result);
+      next();
     }
   } catch (err) {
     console.error('Failed to fetch record from database:', err);

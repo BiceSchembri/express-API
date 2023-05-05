@@ -23,9 +23,9 @@ router
 // Show, update, delete single product
 router
   .route('/products/:id')
-  .get(productController.getOne)
-  .put(tattooFormValidation, productController.update)
-  .delete(productController.delete);
+  .get(recordNotFound, productController.getOne)
+  .put(recordNotFound, tattooFormValidation, productController.update)
+  .delete(recordNotFound, productController.delete);
 
 // Export the router
 module.exports = router;

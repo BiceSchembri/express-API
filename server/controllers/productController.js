@@ -34,13 +34,8 @@ const productController = {
         `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
       );
-      if (!result.length) {
-        console.log('Record not found');
-        res.status(404).send('Record not found');
-      } else {
-        res.setHeader('Content-Type', 'application/json');
-        res.send(result);
-      }
+      res.setHeader('Content-Type', 'application/json');
+      res.send(result);
     } catch (err) {
       console.error('Failed to fetch record from database:', err);
       res
@@ -56,9 +51,9 @@ const productController = {
   // Delete selected record
   delete: async (req, res) => {
     let connection;
+    let id = req.params.id;
     try {
       connection = await pool.getConnection();
-      let id = req.params.id;
       let stmt = await connection.prepare(
         `DELETE FROM tattoo_eshop.tattoos WHERE id = ?`,
         [id]
@@ -132,13 +127,8 @@ const productController = {
         image,
         price_in_EUR,
       };
-      // if (!result.affectedRows) {
-      //   console.log('Record not found');
-      //   res.status(404).send('Record not found');
-      // } else {
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
-      // }
     } catch (err) {
       console.error('Failed to update record in the database:', err);
       res
