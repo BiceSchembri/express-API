@@ -1,4 +1,4 @@
-const notFound = (req, res, next) => {
+const pageNotFound = (req, res, next) => {
   res.status(404).send(
     `404 - Page Not Found.
       <br>
@@ -6,4 +6,4 @@ const notFound = (req, res, next) => {
   );
 };
 
-module.exports = notFound;
+module.exports = pageNotFound;
