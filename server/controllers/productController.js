@@ -8,9 +8,7 @@ const productController = {
     let connection;
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(
-        `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos`
-      );
+      let result = await connection.query(`SELECT * FROM tattoo_eshop.tattoos`);
       console.log(`Retrieved ${result.length} rows from the database`);
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
@@ -33,7 +31,7 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
-        `SELECT title, description, image, price_in_EUR FROM tattoo_eshop.tattoos WHERE id=?`,
+        `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
         [id]
       );
       if (!result.length) {
