@@ -2,22 +2,22 @@
 const pool = require('../configs/db.js');
 
 // Controllers
-const productController = {
-  // Show all records (eshop products / tattoos)
+const userController = {
+  // Show all users
   getAll: async (req, res) => {
     let connection;
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(`SELECT * FROM tattoo_eshop.tattoos`);
+      let result = await connection.query(`SELECT * FROM tattoo_eshop.users`);
       console.log(`Retrieved ${result.length} rows from the database`);
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to fetch records from database:', err);
+      console.error('Failed to fetch users from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to fetch records from database'
+          '500 - Internal Server Error. Failed to fetch users from database'
         );
     } finally {
       if (connection) await connection.release();
@@ -31,17 +31,17 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
-        `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
+        `SELECT * FROM tattoo_eshop.users WHERE id=?`,
         [id]
       );
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to fetch record from database:', err);
+      console.error('Failed to fetch user from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to fetch record from database'
+          '500 - Internal Server Error. Failed to fetch user from database'
         );
     } finally {
       if (connection) await connection.release();
@@ -55,17 +55,17 @@ const productController = {
     try {
       connection = await pool.getConnection();
       let stmt = await connection.prepare(
-        `DELETE FROM tattoo_eshop.tattoos WHERE id = ?`,
+        `DELETE FROM tattoo_eshop.users WHERE id = ?`,
         [id]
       );
       await stmt.execute(id);
-      res.send('Record deleted successfully');
+      res.send('User deleted successfully');
     } catch (err) {
-      console.error('Failed to delete record from database:', err);
+      console.error('Failed to delete user from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to delete record from database'
+          '500 - Internal Server Error. Failed to delete user from database'
         );
     } finally {
       if (connection) await connection.release();
@@ -74,29 +74,36 @@ const productController = {
 
   // Show create form page (dummy data)
   // createPage: async (req, res) => {
-  //   res.send('On this page you will find a form to create a new record');
+  //   res.send('On this page you will find a form to create a new user');
   // },
 
   //  Create new record
   create: async (req, res) => {
     // Get the request input
-    let { title, description, image, price_in_EUR } = req.body;
+    let { firstname, lastname, username, email, password } = req.body;
     let connection;
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
-        `INSERT INTO tattoo_eshop.tattoos (title, description, image, price_in_EUR) VALUES (?, ?, ?, ?)`,
-        [title, description, image, price_in_EUR]
+        `INSERT INTO tattoo_eshop.users (firstname, lastname, username, email, password) VALUES (?, ?, ?, ?, ?)`,
+        [firstname, lastname, username, email, password]
       );
       let id = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(id), title, description, image, price_in_EUR });
+      res.send({
+        id: Number(id),
+        firstname,
+        lastname,
+        username,
+        email,
+        password,
+      });
     } catch (err) {
-      console.error('Failed to create new record in the database:', err);
+      console.error('Failed to create new user in the database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to create new record in the database'
+          '500 - Internal Server Error. Failed to create new user in the database'
         );
     } finally {
       if (connection) await connection.release();
@@ -106,30 +113,31 @@ const productController = {
   // Update selected record
   update: async (req, res) => {
     // Get the request input
-    let { title, description, image, price_in_EUR } = req.body;
+    let { firstname, lastname, username, email, password } = req.body;
     let id = req.params.id;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
-        `UPDATE tattoo_eshop.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id=?`,
-        [title, description, image || null, price_in_EUR, id]
+        `UPDATE tattoo_eshop.users SET firstname=?, lastname=?, username=?, email=?, password=? WHERE id=?`,
+        [firstname, lastname, username, email, password, id]
       );
       let result = {
         id: Number(id),
-        title,
-        description,
-        image,
-        price_in_EUR,
+        firstname,
+        lastname,
+        username,
+        email,
+        password,
       };
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to update record in the database:', err);
+      console.error('Failed to update user in the database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to update record in the database'
+          '500 - Internal Server Error. Failed to update user in the database'
         );
     } finally {
       if (connection) await connection.release();
@@ -138,4 +146,4 @@ const productController = {
 };
 
 // Export the controllers
-module.exports = productController;
+module.exports = userController;
