@@ -5,7 +5,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 // Import Router
-const router = require('./routes/routes');
+const productRouter = require('./routes/product-routes');
+const userRouter = require('./routes/user-routes');
 const pageNotFound = require('./middlewares/pageNotFound.middleware');
 
 // Set the Express app
@@ -19,10 +20,11 @@ const port = process.env.PORT;
 // const host = process.env.HOST;
 
 // Use Router
-app.use('/', router);
+app.use(productRouter);
+app.use(userRouter);
 
 // Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
-router.use(pageNotFound);
+app.use(pageNotFound);
 
 // Port listener
 app.listen(port, () =>
