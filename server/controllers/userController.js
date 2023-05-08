@@ -1,5 +1,7 @@
 // Imports
 const pool = require('../configs/db.js');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // Controllers
 const userController = {
@@ -81,12 +83,16 @@ const userController = {
   create: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
+
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
     let connection;
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
         `INSERT INTO tattoo_eshop.users (firstname, lastname, username, email, password) VALUES (?, ?, ?, ?, ?)`,
-        [firstname, lastname, username, email, password]
+        [firstname, lastname, username, email, hashedPassword]
       );
       let id = result.insertId;
       res.setHeader('Content-Type', 'application/json');
