@@ -241,7 +241,7 @@ const userController = {
         httpOnly: true, // prevents JavaScript from accessing the cookie
         // secure: true, // only sends the cookie over HTTPS
         // sameSite: 'strict', // prevents CSRF attacks
-        // maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
+        maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
       });
 
       res.status(200).json({ message: 'Successfully logged in' });
