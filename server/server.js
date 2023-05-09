@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 const productRouter = require('./routes/product-routes');
 const userRouter = require('./routes/user-routes');
 const sessionRouter = require('./routes/session-routes');
-// const postRouter = require('./routes/post-routes');
+const postRouter = require('./routes/post-routes');
 
 // 404 middleware
 const pageNotFound = require('./middlewares/pageNotFound.middleware');
@@ -25,7 +25,7 @@ const port = process.env.PORT;
 
 // Use Router
 app.use(productRouter);
-// app.use(postRouter);
+app.use(postRouter);
 app.use(userRouter);
 app.use(sessionRouter);
 

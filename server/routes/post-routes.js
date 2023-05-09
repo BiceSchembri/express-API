@@ -2,20 +2,21 @@
 const express = require('express');
 const router = express.Router();
 const postController = require('../controllers/postController');
-const postValidation = require('../middlewares/postValidation');
+const postValidation = require('../middlewares/postValidation.middleware');
+const postNotFound = require('../middlewares/postNotFound.middleware');
 
 // Show all posts (no auth)
 router
   .route('/posts')
   .get(postController.getAll)
-  // create post (user auth)
+  // TODO: add user auth
   .post(postValidation, postController.create);
 
 // Show, update, delete single post
-// add user auth
 router
   .route('/posts/:id')
   .get(postNotFound, postController.getOne)
+  // TODO: add user auth, admin auth
   .put(postNotFound, postValidation, postController.update)
   .delete(postNotFound, postController.delete);
 
