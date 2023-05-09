@@ -11,17 +11,17 @@ const productNotFound = async (req, res, next) => {
       [id]
     );
     if (!result.length) {
-      console.log('Record not found, sorry');
-      res.status(404).send('Record not found, sorry');
+      console.log('Product not found, sorry');
+      res.status(404).send('Product not found, sorry');
     } else {
       next();
     }
   } catch (err) {
-    console.error('Failed to fetch record from database:', err, 'sorry');
+    console.error('Failed to fetch product from database:', err, 'sorry');
     res
       .status(500)
       .send(
-        '500 - Internal Server Error. Failed to fetch record from database. Sorry'
+        '500 - Internal Server Error. Failed to fetch product from database. Sorry'
       );
   } finally {
     if (connection) await connection.release();
