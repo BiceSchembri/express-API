@@ -11,7 +11,7 @@ const authenticateToken = (req, res, next) => {
     if (err)
       return res
         .status(403)
-        .send('Not logged in - You are not authorized to perform this request');
+        .send('You are not authorized to perform this request');
     req.user = user;
     next();
   });
