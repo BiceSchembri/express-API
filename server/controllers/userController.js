@@ -2,6 +2,8 @@
 const pool = require('../configs/db.js');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
 // Controllers
 const userController = {
@@ -26,7 +28,7 @@ const userController = {
     }
   },
 
-  // Show selected record
+  // Show user
   getOne: async (req, res) => {
     let connection;
     let id = req.params.id;
@@ -50,7 +52,7 @@ const userController = {
     }
   },
 
-  // Delete selected record
+  // Delete user
   delete: async (req, res) => {
     let connection;
     let id = req.params.id;
@@ -79,7 +81,7 @@ const userController = {
   //   res.send('On this page you will find a form to create a new user');
   // },
 
-  //  Create new record
+  //  REGISTER - Create new user
   create: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
@@ -116,7 +118,7 @@ const userController = {
     }
   },
 
-  // Update selected record
+  // Update user
   update: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
@@ -149,7 +151,117 @@ const userController = {
       if (connection) await connection.release();
     }
   },
+
+  // //  LOGIN - User login
+  // login: async (req, res) => {
+  //   // Get the request input
+  //   let email = req.body.email;
+  //   let password = req.body.password;
+
+  //   let connection;
+  //   try {
+  //     connection = await pool.getConnection();
+
+  //     let user = await connection.query(
+  //       `SELECT * FROM tattoo_eshop.users WHERE email= ? LIMIT 1`,
+  //       [email]
+  //     );
+
+  //     user = user[0];
+
+  //     console.log(user);
+
+  //     // Check if user exists
+  //     if (!user) {
+  //       console.log('User not found');
+  //       return res.send('Sorry, these credentials could not be verified');
+  //     } else {
+  //       // Check if password is correct
+  //       const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+  //       if (!isPasswordCorrect) {
+  //         res.status(403).send('Incorrect credentials');
+  //       } else {
+  //         // Delete password from session after checking it
+  //         delete user.password;
+
+  //         // Generate JWT token
+  //         const accessToken = jwt.sign({ email }, jwt_token);
+
+  //         // Set the token as a cookie
+  //         res.cookie('tattoo_eshop.process', accessToken, {
+  //           httpOnly: true, // prevents JavaScript from accessing the cookie
+  //           // secure: true, // only sends the cookie over HTTPS
+  //           // sameSite: 'strict', // prevents CSRF attacks
+  //           // // maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
+  //           // maxAge: 10 * 1000, // expires in 1 second
+  //         });
+  //         res.status(200).json({ message: 'Successfully logged in' });
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error('Incorrect credentials', err);
+  //     res.status(500).send('403 - incorrect credentials, cannot authenticate');
+  //   } finally {
+  //     if (connection) await connection.release();
+  //   }
+  // },
+
+  //  LOGIN - User login
+  login: async (req, res) => {
+    // Get the request input
+    let email = req.body.email;
+    let password = req.body.password;
+
+    let connection;
+    try {
+      connection = await pool.getConnection();
+
+      let user = await connection.query(
+        `SELECT * FROM tattoo_eshop.users WHERE email=? LIMIT 1`,
+        [email]
+      );
+
+      user = user[0];
+
+      // check if user exists
+      if (!user) {
+        console.log('User not found');
+        res.send('Sorry, these credentials could not be verified');
+      } else {
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordCorrect) {
+          res.send('Incorrect credentials');
+        } else {
+          const accessToken = jwt.sign({ email }, jwt_token);
+
+          // set the token as a cookie
+          res.cookie('tattoo_eshop.process', accessToken, {
+            httpOnly: true, // prevents JavaScript from accessing the cookie
+            secure: true, // only sends the cookie over HTTPS
+            sameSite: 'strict', // prevents CSRF attacks
+            maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
+          });
+
+          res.status(200).json({ message: 'Successfully logged in' });
+        }
+      }
+    } catch (err) {
+      console.error('Incorrect credentials', err);
+      res.status(500).send('403 - incorrect credentials, cannot authenticate');
+    } finally {
+      if (connection) await connection.release();
+    }
+  },
+
+  addRoute: async (req, res) => {
+    res.send('you are logged in');
+    res.redirect('/');
+  },
+
+  // end of controller
 };
 
-// Export the controllers
+// Export the controller
 module.exports = userController;
