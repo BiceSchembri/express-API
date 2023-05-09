@@ -21,6 +21,7 @@ router
   .post(tattooFormValidation, productController.create);
 
 // Show, update, delete single product
+// add admin auth
 router
   .route('/products/:id')
   .get(recordNotFound, productController.getOne)
