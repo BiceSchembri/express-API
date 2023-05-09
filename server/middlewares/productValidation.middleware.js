@@ -1,4 +1,4 @@
-const tattooFormValidation = (req, res, next) => {
+const productValidation = (req, res, next) => {
   // Get the request input
   let { title, description, image, price_in_EUR } = req.body;
   // Check that required fields are not empty
@@ -11,4 +11,4 @@ const tattooFormValidation = (req, res, next) => {
   next();
 };
 
-module.exports = tattooFormValidation;
+module.exports = productValidation;

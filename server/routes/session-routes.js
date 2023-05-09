@@ -2,10 +2,10 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-const userFormValidation = require('../middlewares/userFormValidation.middleware');
+const userValidation = require('../middlewares/userValidation.middleware');
 
 // Register new user
-router.route('/session/signup').post(userFormValidation, userController.create);
+router.route('/session/signup').post(userValidation, userController.create);
 
 // Login user
 router.route('/session/login').post(userController.login);

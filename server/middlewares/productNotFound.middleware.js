@@ -1,7 +1,7 @@
 // Imports
 const pool = require('../configs/db.js');
 
-const recordNotFound = async (req, res, next) => {
+const productNotFound = async (req, res, next) => {
   let connection;
   let id = req.params.id;
   try {
@@ -28,4 +28,4 @@ const recordNotFound = async (req, res, next) => {
   }
 };
 
-module.exports = recordNotFound;
+module.exports = productNotFound;

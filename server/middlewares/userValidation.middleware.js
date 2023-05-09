@@ -1,4 +1,4 @@
-const userFormValidation = (req, res, next) => {
+const userValidation = (req, res, next) => {
   // Get the request input
   let { firstname, lastname, username, email, password } = req.body;
   // Check that required fields are not empty
@@ -13,4 +13,4 @@ const userFormValidation = (req, res, next) => {
   next();
 };
 
-module.exports = userFormValidation;
+module.exports = userValidation;
