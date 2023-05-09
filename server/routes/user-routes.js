@@ -7,11 +7,13 @@ const userNotFound = require('../middlewares/userNotFound.middleware');
 const authenticateToken = require('../middlewares/authenticateToken.middleware');
 
 // Show all users
+// will be admin only
 router.route('/users').get(userController.getAll);
 
-// Show, update, delete single user
+// Show, update, delete user profile
+// needs user auth
 router
-  .route('/users/:id')
+  .route('/profile/:id')
   .get(userNotFound, authenticateToken, userController.getOne)
   .put(
     userNotFound,
