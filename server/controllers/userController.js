@@ -228,28 +228,26 @@ const userController = {
       if (!user) {
         console.log('User not found');
         res.send('Sorry, these credentials could not be verified');
-      } else {
-        const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-        if (!isPasswordCorrect) {
-          res.send('Incorrect credentials');
-        } else {
-          const accessToken = jwt.sign({ email }, jwt_token);
-
-          // set the token as a cookie
-          res.cookie('tattoo_eshop.process', accessToken, {
-            httpOnly: true, // prevents JavaScript from accessing the cookie
-            secure: true, // only sends the cookie over HTTPS
-            sameSite: 'strict', // prevents CSRF attacks
-            maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
-          });
-
-          res.status(200).json({ message: 'Successfully logged in' });
-        }
       }
+      const isPasswordCorrect = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordCorrect) {
+        res.send('Incorrect credentials');
+      }
+      const accessToken = jwt.sign({ email }, jwt_token);
+
+      // set the token as a cookie
+      res.cookie('tattoo_eshop.process', accessToken, {
+        httpOnly: true, // prevents JavaScript from accessing the cookie
+        // secure: true, // only sends the cookie over HTTPS
+        // sameSite: 'strict', // prevents CSRF attacks
+        // maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
+      });
+
+      res.status(200).json({ message: 'Successfully logged in' });
     } catch (err) {
       console.error('Incorrect credentials', err);
-      res.status(500).send('403 - incorrect credentials, cannot authenticate');
+      res.status(500).send('403 - Incorrect credentials, cannot authenticate');
     } finally {
       if (connection) await connection.release();
     }

@@ -16,7 +16,7 @@ router.route('/session/signup').post(userFormValidation, userController.create);
 router.route('/session/login').post(userController.login);
 
 // Auth route
-router.route('session/add').post(cookieJwtAuth, userController.addRoute);
+router.route('/session/add').post(cookieJwtAuth, userController.addRoute);
 
 // Logout user
 // router
