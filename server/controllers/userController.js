@@ -166,11 +166,6 @@ const userController = {
 
       user = user[0];
 
-      // check if user exists
-      if (!user) {
-        console.log('User not found');
-        return res.send('Sorry, these credentials could not be verified');
-      }
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
       if (!isPasswordCorrect) {
