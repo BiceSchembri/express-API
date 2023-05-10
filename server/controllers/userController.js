@@ -117,13 +117,15 @@ const userController = {
   update: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
     let id = req.params.id;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_eshop.users SET firstname=?, lastname=?, username=?, email=?, password=? WHERE id=?`,
-        [firstname, lastname, username, email, password, id]
+        [firstname, lastname, username, email, hashedPassword, id]
       );
       let result = {
         id: Number(id),
