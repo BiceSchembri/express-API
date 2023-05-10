@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
-const checkAuthToken = (req, res, next) => {
+const checkAuthentication = (req, res, next) => {
   //extract the access token from the request cookie
   const accessToken = req.cookies['tattoo_eshop.process'];
 
@@ -21,4 +21,4 @@ const checkAuthToken = (req, res, next) => {
   }
 };
 
-module.exports = checkAuthToken;
+module.exports = checkAuthentication;

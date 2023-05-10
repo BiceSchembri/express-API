@@ -4,22 +4,22 @@ const router = express.Router();
 const postController = require('../controllers/postController');
 const postValidation = require('../middlewares/postValidation.middleware');
 const postNotFound = require('../middlewares/postNotFound.middleware');
-const checkAuthToken = require('../middlewares/checkAuthToken.middleware');
+const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
 
 // Show all posts (no auth)
 router
   .route('/posts')
   .get(postController.getAll)
   // Create new post (user auth)
-  .post(checkAuthToken, postValidation, postController.create);
+  .post(checkAuthentication, postValidation, postController.create);
 
 // Show, update, delete single post (user auth)
 router
   .route('/posts/:id')
-  .get(checkAuthToken, postNotFound, postController.getOne)
+  .get(checkAuthentication, postNotFound, postController.getOne)
   // TODO: add user auth, admin auth
-  .put(checkAuthToken, postNotFound, postValidation, postController.update)
-  .delete(checkAuthToken, postNotFound, postController.delete);
+  .put(checkAuthentication, postNotFound, postValidation, postController.update)
+  .delete(checkAuthentication, postNotFound, postController.delete);
 
 // Export the router
 module.exports = router;
