@@ -17,7 +17,7 @@ router
 router
   .route('/posts/:id')
   .get(checkAuthentication, postNotFound, postController.getOne)
-  // TODO: add user auth, admin auth
+  // TODO: add user auth (and admin auth optional)
   .put(checkAuthentication, postNotFound, postValidation, postController.update)
   .delete(checkAuthentication, postNotFound, postController.delete);
 

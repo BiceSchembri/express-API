@@ -34,12 +34,29 @@ const userController = {
     let id = req.params.id;
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(
-        `SELECT * FROM tattoo_eshop.users WHERE id=?`,
+
+      // Query to fetch user information
+      let userResult = await connection.query(
+        `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
         [id]
       );
+
+      // Query to fetch user's posts
+      let postsResult = await connection.query(
+        `SELECT * FROM tattoo_eshop.posts WHERE user_id = ?`,
+        [id]
+      );
+
+      // Combine the results of both queries
+      let result = {
+        user: userResult[0],
+        posts: postsResult,
+      };
+
+      console.log(result);
+
       res.setHeader('Content-Type', 'application/json');
-      res.send(result);
+      return res.send(result);
     } catch (err) {
       console.error('Failed to fetch user from database:', err);
       res
