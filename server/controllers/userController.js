@@ -35,24 +35,6 @@ const userController = {
     try {
       connection = await pool.getConnection();
 
-      // // Query to fetch user information
-      // let userResult = await connection.query(
-      //   `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
-      //   [id]
-      // );
-
-      // // Query to fetch user's posts
-      // let postsResult = await connection.query(
-      //   `SELECT * FROM tattoo_eshop.posts WHERE user_id = ?`,
-      //   [id]
-      // );
-
-      // // Combine results
-      // let result = {
-      //   user: userResult[0],
-      //   posts: postsResult,
-      // };
-
       let result = await connection.query(
         `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
         [id]
@@ -79,11 +61,23 @@ const userController = {
     try {
       connection = await pool.getConnection();
 
+      // Query to fetch user information (it will be useful for frontend, so the user's info can be shown on top of page for example)
+      let userResult = await connection.query(
+        `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
+        [id]
+      );
+
       // Query to fetch user's posts
-      let result = await connection.query(
+      let postsResult = await connection.query(
         `SELECT * FROM tattoo_eshop.posts WHERE user_id = ?`,
         [id]
       );
+
+      // Combine results
+      let result = {
+        user: userResult[0],
+        posts: postsResult,
+      };
 
       res.setHeader('Content-Type', 'application/json');
       return res.send(result);
