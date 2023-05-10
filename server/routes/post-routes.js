@@ -13,7 +13,7 @@ router
   // Create new post (user auth)
   .post(checkAuthentication, postValidation, postController.create);
 
-// Show, update, delete single post (user auth)
+// Show, update, delete single post
 router
   .route('/posts/:id')
   .get(checkAuthentication, postNotFound, postController.getOne)

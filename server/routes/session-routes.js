@@ -1,18 +1,18 @@
 // Core modules
 const express = require('express');
 const router = express.Router();
-const userController = require('../controllers/userController');
+const sessionController = require('../controllers/sessionController');
 const userValidation = require('../middlewares/userValidation.middleware');
 // const userNotFound = require('../middlewares/userNotFound.middleware');
 
 // Register new user
-router.route('/session/signup').post(userValidation, userController.create);
+router.route('/session/signup').post(userValidation, sessionController.create);
 
 // Login user
-router.route('/session/login').post(userController.login);
+router.route('/session/login').post(sessionController.login);
 
 // Logout user
-router.route('/session/logout').post(userController.logout);
+router.route('/session/logout').post(sessionController.logout);
 
 // Export the router
 module.exports = router;

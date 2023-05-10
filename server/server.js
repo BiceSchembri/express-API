@@ -28,10 +28,10 @@ const port = process.env.PORT;
 
 // Use Router
 app.use(productRouter);
-app.use(postRouter);
 app.use(userRouter);
 app.use(sessionRouter);
 app.use(profileRouter);
+app.use(postRouter);
 
 // Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
 app.use(pageNotFound);

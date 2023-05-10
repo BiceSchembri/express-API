@@ -15,5 +15,7 @@ router
   .put(userValidation, userController.update)
   .delete(userController.delete);
 
+router.route('/profile/:id/myposts').get(userController.getUserPosts);
+
 // Export the router
 module.exports = router;
