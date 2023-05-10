@@ -3,6 +3,7 @@ const express = require('express');
 // const path = require('path');
 const cors = require('cors');
 const dotenv = require('dotenv');
+// const cookies = require('cookie-parser');
 
 // Import routers
 const productRouter = require('./routes/product-routes');
@@ -18,6 +19,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 dotenv.config();
+// app.use(cookies);
 
 // Set PORT and HOST from .env file, with hard-coded alternative
 const port = process.env.PORT;
