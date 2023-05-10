@@ -34,6 +34,17 @@ const userController = {
     let id = req.params.id;
     try {
       connection = await pool.getConnection();
+
+      // Get user ID from JWT token
+      const cookie = req.cookies['tattoo_eshop.process'];
+      const decodedToken = jwt.verify(cookie, jwt_token);
+      const userId = decodedToken.id;
+
+      // Check if the user ID in the request parameters matches the ID in the JWT token
+      if (userId != id) {
+        return res.status(401).send('Not authorized to see this page');
+      }
+
       let result = await connection.query(
         `SELECT * FROM tattoo_eshop.users WHERE id=?`,
         [id]
@@ -171,7 +182,11 @@ const userController = {
       if (!isPasswordCorrect) {
         return res.send('Incorrect credentials');
       }
-      const accessToken = jwt.sign({ email }, jwt_token);
+
+      const accessToken = jwt.sign(
+        { id: user.id, email: user.email },
+        jwt_token
+      );
 
       // set the token as a cookie
       res.cookie('tattoo_eshop.process', accessToken, {
