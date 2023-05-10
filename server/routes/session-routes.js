@@ -9,7 +9,7 @@ const userNotFound = require('../middlewares/userNotFound.middleware');
 router.route('/session/signup').post(userValidation, userController.create);
 
 // Login user
-router.route('/session/login').post(userNotFound, userController.login);
+router.route('/session/login').post(userController.login);
 
 // Logout user
 router.route('/session/logout').post(userController.logout);
