@@ -13,13 +13,13 @@ router
   // Create new post (user auth)
   .post(checkAuthToken, postValidation, postController.create);
 
-// Show, update, delete single post
+// Show, update, delete single post (user auth)
 router
   .route('/posts/:id')
-  .get(postNotFound, postController.getOne)
+  .get(checkAuthToken, postNotFound, postController.getOne)
   // TODO: add user auth, admin auth
-  .put(postNotFound, postValidation, postController.update)
-  .delete(postNotFound, postController.delete);
+  .put(checkAuthToken, postNotFound, postValidation, postController.update)
+  .delete(checkAuthToken, postNotFound, postController.delete);
 
 // Export the router
 module.exports = router;

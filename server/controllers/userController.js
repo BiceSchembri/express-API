@@ -1,7 +1,7 @@
 // Imports
 const pool = require('../configs/db.js');
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+// const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
