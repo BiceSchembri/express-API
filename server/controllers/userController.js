@@ -169,12 +169,12 @@ const userController = {
       // check if user exists
       if (!user) {
         console.log('User not found');
-        res.send('Sorry, these credentials could not be verified');
+        return res.send('Sorry, these credentials could not be verified');
       }
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
       if (!isPasswordCorrect) {
-        res.send('Incorrect credentials');
+        return res.send('Incorrect credentials');
       }
       const accessToken = jwt.sign({ email }, jwt_token);
 
@@ -185,8 +185,7 @@ const userController = {
         // sameSite: 'strict', // prevents CSRF attacks
         maxAge: 24 * 60 * 60 * 1000, // expires in 24 hours
       });
-
-      res.status(200).json({ message: 'Successfully logged in' });
+      res.status(200).send('Successfully logged in');
     } catch (err) {
       console.error('Incorrect credentials', err);
       res.status(500).send('403 - Incorrect credentials, cannot authenticate');
@@ -194,11 +193,6 @@ const userController = {
       if (connection) await connection.release();
     }
   },
-
-  // addRoute: async (req, res) => {
-  //   res.send('you are logged in');
-  //   res.redirect('/');
-  // },
 
   // LOGOUT
   logout: async (req, res) => {
