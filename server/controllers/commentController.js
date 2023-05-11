@@ -2,127 +2,126 @@
 const pool = require('../configs/db.js');
 
 // Controllers
-const postController = {
-  // Show all posts
+const commentController = {
+  // Show all comments
   getAll: async (req, res) => {
     let connection;
+    let postId = req.params.id;
+    console.log(`req.params.id = ${req.params.id}`);
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(`SELECT * FROM tattoo_eshop.posts`);
-      console.log(`Retrieved ${result.length} posts from the database`);
+      let result = await connection.query(
+        `SELECT * FROM tattoo_eshop.comments WHERE post_id=?`,
+        [postId]
+      );
+      console.log(`Retrieved ${result.length} comments from the database`);
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to fetch posts from database:', err);
+      console.error('Failed to fetch comments from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to fetch posts from database'
+          '500 - Internal Server Error. Failed to fetch comments from database'
         );
     } finally {
       if (connection) await connection.release();
     }
   },
 
-  // Show post
+  // Show comment
   getOne: async (req, res) => {
     let connection;
     let id = req.params.id;
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
-        `SELECT * FROM tattoo_eshop.posts WHERE id=?`,
+        `SELECT * FROM tattoo_eshop.comments WHERE id=?`,
         [id]
       );
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to fetch post from database:', err);
+      console.error('Failed to fetch comment from database:', err);
       res
         .status(500)
         .send(
-          '500 - Internal Server Error. Failed to fetch post from database'
+          '500 - Internal Server Error. Failed to fetch comment from database'
         );
     } finally {
       if (connection) await connection.release();
     }
   },
 
-  // Show form to add post
-  showCreate: (req, res) => {
-    res.send('this will be the form to create a post');
-  },
-
-  //  Add post
+  //  Add comment
   create: async (req, res) => {
     // Get the request input
-    let { user_id, title, body } = req.body;
+    let { post_id, user_id, body } = req.body;
     let connection;
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
-        `INSERT INTO tattoo_eshop.posts (user_id, title, body) VALUES (?, ?, ?)`,
-        [user_id, title, body]
+        `INSERT INTO tattoo_eshop.comments (post_id, user_id, body) VALUES (?, ?, ?)`,
+        [post_id, user_id, body]
       );
       let id = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(id), user_id, title, body });
+      res.send({ id: Number(id), post_id, user_id, body });
     } catch (err) {
-      console.error('Failed to create new post:', err);
+      console.error('Failed to create new comment:', err);
       res
         .status(500)
-        .send('500 - Internal Server Error. Failed to create new post');
+        .send('500 - Internal Server Error. Failed to create new comment');
     } finally {
       if (connection) await connection.release();
     }
   },
 
-  // Update post
+  // Update comment
   update: async (req, res) => {
     // Get the request input
-    let { title, body } = req.body;
+    let { body } = req.body;
     let id = req.params.id;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
-        `UPDATE tattoo_eshop.posts SET title=?, body=? WHERE id=?`,
-        [title, body, id]
+        `UPDATE tattoo_eshop.comments SET body=? WHERE id=?`,
+        [body, id]
       );
       let result = {
         id: Number(id),
-        title,
         body,
       };
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
-      console.error('Failed to update post:', err);
+      console.error('Failed to update comment:', err);
       res
         .status(500)
-        .send('500 - Internal Server Error. Failed to update post');
+        .send('500 - Internal Server Error. Failed to update comment');
     } finally {
       if (connection) await connection.release();
     }
   },
 
-  // Delete post
+  // Delete comment
   delete: async (req, res) => {
     let connection;
     let id = req.params.id;
     try {
       connection = await pool.getConnection();
       let stmt = await connection.prepare(
-        `DELETE FROM tattoo_eshop.posts WHERE id = ?`,
+        `DELETE FROM tattoo_eshop.comments WHERE id = ?`,
         [id]
       );
       await stmt.execute(id);
-      res.send('Post deleted successfully');
+      res.send('Comment deleted successfully');
     } catch (err) {
-      console.error('Failed to delete post:', err);
+      console.error('Failed to delete comment:', err);
       res
         .status(500)
-        .send('500 - Internal Server Error. Failed to delete post');
+        .send('500 - Internal Server Error. Failed to delete comment');
     } finally {
       if (connection) await connection.release();
     }
@@ -130,4 +129,4 @@ const postController = {
 };
 
 // Export the controllers
-module.exports = postController;
+module.exports = commentController;

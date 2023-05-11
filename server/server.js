@@ -11,6 +11,7 @@ const userRouter = require('./routes/user-routes');
 const sessionRouter = require('./routes/session-routes');
 const postRouter = require('./routes/post-routes');
 const profileRouter = require('./routes/profile-routes');
+const commentRouter = require('./routes/comment-routes');
 
 // 404 middleware
 const pageNotFound = require('./middlewares/pageNotFound.middleware');
@@ -37,6 +38,7 @@ app.use(userRouter);
 app.use(sessionRouter);
 app.use(profileRouter);
 app.use(postRouter);
+app.use(commentRouter);
 
 // Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
 app.use(pageNotFound);
