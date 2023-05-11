@@ -2,15 +2,10 @@ const pool = require('../configs/db.js');
 const jwt = require('jsonwebtoken');
 const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
-const postAuth = async (req, res, next) => {
+const postAuthorization = async (req, res, next) => {
   let connection;
 
   try {
-    // Get user ID from JWT token
-    const cookie = req.cookies['tattoo_eshop.process'];
-    const decodedToken = jwt.verify(cookie, jwt_token);
-    // const decodedUserId = decodedToken.id;
-
     let postId = req.params.id;
     let userId = req.user.id;
 
@@ -32,4 +27,4 @@ const postAuth = async (req, res, next) => {
   }
 };
 
-module.exports = postAuth;
+module.exports = postAuthorization;

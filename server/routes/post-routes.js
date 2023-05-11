@@ -6,12 +6,11 @@ const postValidation = require('../middlewares/postValidation.middleware');
 const postNotFound = require('../middlewares/postNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
 const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
-const postAuth = require('../middlewares/postAuth');
+const postAuthorization = require('../middlewares/postAuthorization');
 
 // Show all posts (no auth)
 router.route('/posts').get(postController.getAll);
 // Create new post (user auth)
-
 router
   .route('/posts/new-post')
   .get(postController.showCreate)
@@ -22,18 +21,17 @@ router
   .route('/posts/:id')
   .all(postNotFound)
   .get(postController.getOne)
-  // TODO: add user auth (and admin auth optional)
   .put(
     checkAuthentication,
     checkAuthorization,
-    postAuth,
+    postAuthorization,
     postValidation,
     postController.update
   )
   .delete(
     checkAuthentication,
     checkAuthorization,
-    postAuth,
+    postAuthorization,
     postController.delete
   );
 

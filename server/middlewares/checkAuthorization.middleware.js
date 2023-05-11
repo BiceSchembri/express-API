@@ -8,11 +8,6 @@ const checkAuthorization = (req, res, next) => {
     const decodedToken = jwt.verify(cookie, jwt_token);
     const userId = decodedToken.id;
 
-    console.log(`req.user.id / user id = ${req.user.id}`); // id of the logged in user
-    console.log(`req.params.id / post id = ${req.params.id}`); // id of the post
-    console.log(`userId / from token = ${userId}`); // id of the logged in user - cookie token
-    console.log(`decodedToken = ${JSON.stringify(decodedToken)}`);
-
     // Check if the user ID in the request parameters matches the ID in the JWT token
     if (userId != req.user.id) {
       return res.status(401).send('Not authorized to see this page');
