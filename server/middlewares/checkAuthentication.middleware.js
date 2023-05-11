@@ -7,13 +7,10 @@ const checkAuthentication = (req, res, next) => {
 
   if (!accessToken) {
     // If access token is not present, user is not authenticated
-    // res.status(401).json({ message: 'Not authenticated' });
+    res.status(401).json({ message: 'Not authenticated' });
 
     // redirect user to login page if they are not authenticated
-    console.log(
-      'Not authenticated. User will be redirected to the login page.'
-    );
-    return res.status(401).redirect('/session/login');
+    // return res.status(401).redirect('/session/login');
   }
   try {
     // Verify the access token

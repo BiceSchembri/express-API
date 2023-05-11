@@ -48,28 +48,6 @@ const postController = {
     }
   },
 
-  // Delete post
-  delete: async (req, res) => {
-    let connection;
-    let id = req.params.id;
-    try {
-      connection = await pool.getConnection();
-      let stmt = await connection.prepare(
-        `DELETE FROM tattoo_eshop.posts WHERE id = ?`,
-        [id]
-      );
-      await stmt.execute(id);
-      res.send('Post deleted successfully');
-    } catch (err) {
-      console.error('Failed to delete post:', err);
-      res
-        .status(500)
-        .send('500 - Internal Server Error. Failed to delete post');
-    } finally {
-      if (connection) await connection.release();
-    }
-  },
-
   // Show form to add post
   showCreate: (req, res) => {
     res.send('this will be the form to create a post');
@@ -123,6 +101,28 @@ const postController = {
       res
         .status(500)
         .send('500 - Internal Server Error. Failed to update post');
+    } finally {
+      if (connection) await connection.release();
+    }
+  },
+
+  // Delete post
+  delete: async (req, res) => {
+    let connection;
+    let id = req.params.id;
+    try {
+      connection = await pool.getConnection();
+      let stmt = await connection.prepare(
+        `DELETE FROM tattoo_eshop.posts WHERE id = ?`,
+        [id]
+      );
+      await stmt.execute(id);
+      res.send('Post deleted successfully');
+    } catch (err) {
+      console.error('Failed to delete post:', err);
+      res
+        .status(500)
+        .send('500 - Internal Server Error. Failed to delete post');
     } finally {
       if (connection) await connection.release();
     }

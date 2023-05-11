@@ -5,6 +5,8 @@ const postController = require('../controllers/postController');
 const postValidation = require('../middlewares/postValidation.middleware');
 const postNotFound = require('../middlewares/postNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
+const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
+const postAuth = require('../middlewares/postAuth');
 
 // Show all posts (no auth)
 router.route('/posts').get(postController.getAll);
@@ -18,10 +20,22 @@ router
 // Show, update, delete single post
 router
   .route('/posts/:id')
-  .get(checkAuthentication, postNotFound, postController.getOne)
+  .all(postNotFound)
+  .get(postController.getOne)
   // TODO: add user auth (and admin auth optional)
-  .put(checkAuthentication, postNotFound, postValidation, postController.update)
-  .delete(checkAuthentication, postNotFound, postController.delete);
+  .put(
+    checkAuthentication,
+    checkAuthorization,
+    postAuth,
+    postValidation,
+    postController.update
+  )
+  .delete(
+    checkAuthentication,
+    checkAuthorization,
+    postAuth,
+    postController.delete
+  );
 
 // Export the router
 module.exports = router;
