@@ -7,7 +7,7 @@ const commentController = require('../controllers/commentController');
 
 // Show all comments (no auth)
 router
-  .route('/posts/:id/comments')
+  .route('/posts/:postId/comments')
   .get(commentController.getAll)
   // Add comment
   // TODO: add auth / anonymous
@@ -15,7 +15,7 @@ router
 
 // Show, update, delete single comment
 router
-  .route('/posts/:id/comments/:id')
+  .route('/posts/:postId/comments/:commentId')
   .get(commentController.getOne)
   // TODO: add auth
   .put(commentController.update)

@@ -6,8 +6,8 @@ const commentController = {
   // Show all comments
   getAll: async (req, res) => {
     let connection;
-    let postId = req.params.id;
-    console.log(`req.params.id = ${req.params.id}`);
+    let postId = req.params.postId;
+    console.log(`req.params.postId = ${req.params.postId}`);
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
@@ -32,12 +32,13 @@ const commentController = {
   // Show comment
   getOne: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let postId = req.params.postId;
+    let commentId = req.params.commentId;
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
-        `SELECT * FROM tattoo_eshop.comments WHERE id=?`,
-        [id]
+        `SELECT * FROM tattoo_eshop.comments WHERE id=? AND post_id=?`,
+        [commentId, postId]
       );
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
@@ -81,16 +82,16 @@ const commentController = {
   update: async (req, res) => {
     // Get the request input
     let { body } = req.body;
-    let id = req.params.id;
+    let commentId = req.params.commentId;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_eshop.comments SET body=? WHERE id=?`,
-        [body, id]
+        [body, commentId]
       );
       let result = {
-        id: Number(id),
+        id: Number(commentId),
         body,
       };
       res.setHeader('Content-Type', 'application/json');
@@ -108,14 +109,14 @@ const commentController = {
   // Delete comment
   delete: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let commentId = req.params.commentId;
     try {
       connection = await pool.getConnection();
       let stmt = await connection.prepare(
         `DELETE FROM tattoo_eshop.comments WHERE id = ?`,
-        [id]
+        [commentId]
       );
-      await stmt.execute(id);
+      await stmt.execute(commentId);
       res.send('Comment deleted successfully');
     } catch (err) {
       console.error('Failed to delete comment:', err);
