@@ -26,6 +26,11 @@ app.use(cookieParser());
 const port = process.env.PORT;
 // const host = process.env.HOST;
 
+// Show landing page
+app.get('/', (req, res) => {
+  res.send('Welcome! This is the landing page of my tattoo e-shop.');
+});
+
 // Use Router
 app.use(productRouter);
 app.use(userRouter);

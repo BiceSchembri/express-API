@@ -44,6 +44,11 @@ const sessionController = {
     }
   },
 
+  // Show form to login
+  showLogin: (req, res) => {
+    res.send('this will be the form to login');
+  },
+
   //  LOGIN
   login: async (req, res) => {
     // Get the request input

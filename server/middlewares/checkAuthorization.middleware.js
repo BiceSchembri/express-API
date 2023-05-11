@@ -16,7 +16,9 @@ const checkAuthorization = (req, res, next) => {
     }
     next();
   } catch (err) {
-    return res.status(401).send('nope');
+    return res
+      .status(401)
+      .send('There was an error. You are not authorized to see this page');
   }
 };
 

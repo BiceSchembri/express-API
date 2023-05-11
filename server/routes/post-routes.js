@@ -7,10 +7,12 @@ const postNotFound = require('../middlewares/postNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
 
 // Show all posts (no auth)
+router.route('/posts').get(postController.getAll);
+// Create new post (user auth)
+
 router
-  .route('/posts')
-  .get(postController.getAll)
-  // Create new post (user auth)
+  .route('/posts/new-post')
+  .get(postController.showCreate)
   .post(checkAuthentication, postValidation, postController.create);
 
 // Show, update, delete single post

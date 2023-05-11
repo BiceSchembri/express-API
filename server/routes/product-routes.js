@@ -5,15 +5,6 @@ const productController = require('../controllers/productController');
 const productValidation = require('../middlewares/productValidation.middleware');
 const productNotFound = require('../middlewares/productNotFound.middleware');
 
-// Show landing page
-router.route('/').get((req, res) => {
-  res.send(
-    `Welcome!
-    <br>
-    This is the landing page of my tattoo e-shop.`
-  );
-});
-
 // Show all products + Create new product
 router
   .route('/products')

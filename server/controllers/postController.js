@@ -70,6 +70,11 @@ const postController = {
     }
   },
 
+  // Show form to add post
+  showCreate: (req, res) => {
+    res.send('this will be the form to create a post');
+  },
+
   //  Add post
   create: async (req, res) => {
     // Get the request input

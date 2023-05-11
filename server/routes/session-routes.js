@@ -9,7 +9,10 @@ const userValidation = require('../middlewares/userValidation.middleware');
 router.route('/session/signup').post(userValidation, sessionController.create);
 
 // Login user
-router.route('/session/login').post(sessionController.login);
+router
+  .route('/session/login')
+  .get(sessionController.showLogin)
+  .post(sessionController.login);
 
 // Logout user
 router.route('/session/logout').post(sessionController.logout);

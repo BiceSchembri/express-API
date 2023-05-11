@@ -7,9 +7,14 @@ const checkAuthentication = (req, res, next) => {
 
   if (!accessToken) {
     // If access token is not present, user is not authenticated
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
+    // res.status(401).json({ message: 'Not authenticated' });
 
+    // redirect user to login page if they are not authenticated
+    console.log(
+      'Not authenticated. User will be redirected to the login page.'
+    );
+    return res.status(401).redirect('/session/login');
+  }
   try {
     // Verify the access token
     const decoded = jwt.verify(accessToken, jwt_token);
@@ -17,7 +22,9 @@ const checkAuthentication = (req, res, next) => {
     next(); // proceed to the next middleware or route handler
   } catch (err) {
     // If access token verification fails, user is not authenticated
-    return res.status(401).json({ message: 'Unauthorized' });
+    return res
+      .status(401)
+      .json({ message: 'There was an error. You are not authenticated' });
   }
 };
 
