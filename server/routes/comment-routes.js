@@ -8,16 +8,17 @@ const checkAuthentication = require('../middlewares/checkAuthentication.middlewa
 const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
 const commentAuthorization = require('../middlewares/commentAuthorization.middleware');
 
-// Show all comments
+// NOTE: there is no "show all comments", as comments are shown directly under the post to which they belong.
+
+// Create new comment
 router
-  .route('/posts/:postId/comments')
-  .get(commentController.getAll)
+  .route('/posts/:postId/new-comment')
   // User needs to be authenticated
   .post(checkAuthentication, commentValidation, commentController.create);
 
 // Show, update, delete single comment
 router
-  .route('/posts/:postId/comments/:commentId')
+  .route('/posts/:postId/:commentId')
   .all(commentNotFound)
   .get(commentController.getOne)
   // User needs to be authenticated and authorized
