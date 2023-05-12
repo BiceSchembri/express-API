@@ -21,7 +21,7 @@ router
 
 // Show, update, delete single product
 router
-  .route('/products/:id')
+  .route('/products/:productId')
   .all(productNotFound)
   .get(productController.getOne)
   // Admin only
