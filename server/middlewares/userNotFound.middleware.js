@@ -3,12 +3,12 @@ const pool = require('../configs/db.js');
 
 const userNotFound = async (req, res, next) => {
   let connection;
-  let id = req.params.id;
+  let userId = req.params.userId;
   try {
     connection = await pool.getConnection();
     let result = await connection.query(
       `SELECT * FROM tattoo_eshop.users WHERE id=?`,
-      [id]
+      [userId]
     );
     if (!result.length) {
       console.log('User not found, sorry');
