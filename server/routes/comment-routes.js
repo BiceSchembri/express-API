@@ -1,4 +1,3 @@
-// Core modules
 const express = require('express');
 const router = express.Router();
 const commentController = require('../controllers/commentController');
@@ -20,7 +19,8 @@ router
   .route('/posts/:postId/:commentId')
   .all(commentNotFound)
   .get(commentController.getOne)
-  // User needs to be authenticated and authorized
+  // User needs to be authenticated and authorized to edit/delete
+  // or else have admin priileges
   .put(
     checkAuthentication,
     commentAuthorization,
