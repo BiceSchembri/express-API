@@ -1,6 +1,4 @@
 const pool = require('../configs/db.js');
-const jwt = require('jsonwebtoken');
-const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
 const postAuthorization = async (req, res, next) => {
   let connection;

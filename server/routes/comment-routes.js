@@ -2,24 +2,38 @@
 const express = require('express');
 const router = express.Router();
 const commentController = require('../controllers/commentController');
-// const commentValidation = require('../middlewares/commentValidation.middleware');
-// const commentNotFound = require('../middlewares/commentNotFound.middleware');
+const commentValidation = require('../middlewares/commentValidation.middleware');
+const commentNotFound = require('../middlewares/commentNotFound.middleware');
+const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
+const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
+const commentAuthorization = require('../middlewares/commentAuthorization.middleware');
 
-// Show all comments (no auth)
+// Show all comments
 router
   .route('/posts/:postId/comments')
   .get(commentController.getAll)
-  // Add comment
-  // TODO: add auth / anonymous
-  .post(commentController.create);
+  // User needs to be authenticated
+  .post(checkAuthentication, commentValidation, commentController.create);
 
 // Show, update, delete single comment
 router
   .route('/posts/:postId/comments/:commentId')
+  .all(commentNotFound)
   .get(commentController.getOne)
-  // TODO: add auth
-  .put(commentController.update)
-  .delete(commentController.delete);
+  // User needs to be authenticated and authorized
+  .put(
+    checkAuthentication,
+    checkAuthorization,
+    commentAuthorization,
+    commentValidation,
+    commentController.update
+  )
+  .delete(
+    checkAuthentication,
+    checkAuthorization,
+    commentAuthorization,
+    commentController.delete
+  );
 
 // Export the router
 module.exports = router;
