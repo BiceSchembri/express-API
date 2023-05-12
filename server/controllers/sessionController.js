@@ -79,7 +79,7 @@ const sessionController = {
       }
 
       const accessToken = jwt.sign(
-        { id: user.id, email: user.email },
+        { id: user.id, email: user.email, isAdmin: user.is_admin },
         jwt_token
       );
 
@@ -93,7 +93,7 @@ const sessionController = {
       res.status(200).send('Successfully logged in');
     } catch (err) {
       console.error('Incorrect credentials', err);
-      res.status(500).send('403 - Incorrect credentials, cannot authenticate');
+      res.status(500).send('Incorrect credentials, cannot authenticate');
     } finally {
       if (connection) await connection.release();
     }

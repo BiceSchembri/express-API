@@ -5,7 +5,7 @@ const userController = require('../controllers/userController');
 const userValidation = require('../middlewares/userValidation.middleware');
 const userNotFound = require('../middlewares/userNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
-const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
+// const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
 const profileAuthorization = require('../middlewares/profileAuthorization.middleware');
 
 // Show, update, delete user profile (user auth)
@@ -14,7 +14,7 @@ router
   .all(
     userNotFound,
     checkAuthentication,
-    checkAuthorization,
+    // checkAuthorization,
     profileAuthorization
   )
   .get(userController.getOne)
@@ -26,7 +26,7 @@ router
   .all(
     userNotFound,
     checkAuthentication,
-    checkAuthorization,
+    // checkAuthorization,
     profileAuthorization
   )
   .get(userController.getUserPosts);

@@ -5,7 +5,7 @@ const productController = require('../controllers/productController');
 const productValidation = require('../middlewares/productValidation.middleware');
 const productNotFound = require('../middlewares/productNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
-const isAdmin = require('../middlewares/isAdmin.middleware');
+const checkIfAdmin = require('../middlewares/checkIfAdmin.middleware');
 
 // Show all products + Create new product
 router
@@ -14,7 +14,7 @@ router
   // Admin only
   .post(
     checkAuthentication,
-    isAdmin,
+    checkIfAdmin,
     productValidation,
     productController.create
   );
@@ -27,11 +27,11 @@ router
   // Admin only
   .put(
     checkAuthentication,
-    isAdmin,
+    checkIfAdmin,
     productValidation,
     productController.update
   )
-  .delete(checkAuthentication, isAdmin, productController.delete);
+  .delete(checkAuthentication, checkIfAdmin, productController.delete);
 
 // Export the router
 module.exports = router;

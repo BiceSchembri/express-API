@@ -5,7 +5,6 @@ const postController = require('../controllers/postController');
 const postValidation = require('../middlewares/postValidation.middleware');
 const postNotFound = require('../middlewares/postNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
-const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
 const postAuthorization = require('../middlewares/postAuthorization.middleware');
 
 // Show all posts
@@ -24,17 +23,11 @@ router
   // User needs to be authenticated and authorized
   .put(
     checkAuthentication,
-    checkAuthorization,
     postAuthorization,
     postValidation,
     postController.update
   )
-  .delete(
-    checkAuthentication,
-    checkAuthorization,
-    postAuthorization,
-    postController.delete
-  );
+  .delete(checkAuthentication, postAuthorization, postController.delete);
 
 // Export the router
 module.exports = router;
