@@ -1,6 +1,4 @@
-const pool = require('../configs/db.js');
-
-const userAuthorization = async (req, res, next) => {
+const profileAuthorization = async (req, res, next) => {
   try {
     // check if the userId in the cookie token is the same as the profile id that the user is trying to access
     if (req.params.userId != req.user.id) {
@@ -14,4 +12,4 @@ const userAuthorization = async (req, res, next) => {
   }
 };
 
-module.exports = userAuthorization;
+module.exports = profileAuthorization;
