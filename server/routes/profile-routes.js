@@ -6,18 +6,19 @@ const userValidation = require('../middlewares/userValidation.middleware');
 const userNotFound = require('../middlewares/userNotFound.middleware');
 const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
 const checkAuthorization = require('../middlewares/checkAuthorization.middleware');
+const userAuthorization = require('../middlewares/userAuthorization.middleware');
 
 // Show, update, delete user profile (user auth)
 router
-  .route('/profile/:id')
-  .all(userNotFound, checkAuthentication, checkAuthorization)
+  .route('/profile/:userId')
+  .all(userNotFound, checkAuthentication, checkAuthorization, userAuthorization)
   .get(userController.getOne)
   .put(userValidation, userController.update)
   .delete(userController.delete);
 
 router
-  .route('/profile/:id/myposts')
-  .all(userNotFound, checkAuthentication, checkAuthorization)
+  .route('/profile/:userId/myposts')
+  .all(userNotFound, checkAuthentication, checkAuthorization, userAuthorization)
   .get(userController.getUserPosts);
 
 // Export the router
