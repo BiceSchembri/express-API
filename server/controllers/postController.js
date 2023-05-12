@@ -62,17 +62,18 @@ const postController = {
   //  Add post
   create: async (req, res) => {
     // Get the request input
-    let { user_id, title, body } = req.body;
+    let { title, body } = req.body;
+    let userId = req.user.id;
     let connection;
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
         `INSERT INTO tattoo_eshop.posts (user_id, title, body) VALUES (?, ?, ?)`,
-        [user_id, title, body]
+        [userId, title, body]
       );
       let postId = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(postId), user_id, title, body });
+      res.send({ id: Number(postId), userId, title, body });
     } catch (err) {
       console.error('Failed to create new post:', err);
       res
