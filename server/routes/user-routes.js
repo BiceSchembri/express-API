@@ -3,8 +3,8 @@ const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
 
-// Show all users
-// will be admin only
+// Admin-specific routes
+// Admin only
 router.route('/users').get(userController.getAll);
 
 // Export the router

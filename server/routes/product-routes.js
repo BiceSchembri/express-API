@@ -9,13 +9,14 @@ const productNotFound = require('../middlewares/productNotFound.middleware');
 router
   .route('/products')
   .get(productController.getAll)
-  // add admin auth
+  // Admin only
   .post(productValidation, productController.create);
 
 // Show, update, delete single product
 router
   .route('/products/:id')
   .get(productNotFound, productController.getOne)
+  // Admin only
   .put(productNotFound, productValidation, productController.update)
   .delete(productNotFound, productController.delete);
 
