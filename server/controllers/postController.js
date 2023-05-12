@@ -24,16 +24,22 @@ const postController = {
     }
   },
 
-  // Show post
+  // Show post with related comments
   getOne: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let postId = req.params.postId;
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(
+      let postResult = await connection.query(
         `SELECT * FROM tattoo_eshop.posts WHERE id=?`,
-        [id]
+        [postId]
       );
+      let commentResult = await connection.query(
+        `SELECT * FROM tattoo_eshop.comments WHERE post_id=?`,
+        [postId]
+      );
+      let result = { postResult, commentResult };
+      console.log(result);
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
     } catch (err) {
@@ -64,9 +70,9 @@ const postController = {
         `INSERT INTO tattoo_eshop.posts (user_id, title, body) VALUES (?, ?, ?)`,
         [user_id, title, body]
       );
-      let id = result.insertId;
+      let postId = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(id), user_id, title, body });
+      res.send({ id: Number(postId), user_id, title, body });
     } catch (err) {
       console.error('Failed to create new post:', err);
       res
@@ -81,16 +87,16 @@ const postController = {
   update: async (req, res) => {
     // Get the request input
     let { title, body } = req.body;
-    let id = req.params.id;
+    let postId = req.params.postId;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_eshop.posts SET title=?, body=? WHERE id=?`,
-        [title, body, id]
+        [title, body, postId]
       );
       let result = {
-        id: Number(id),
+        id: Number(postId),
         title,
         body,
       };
@@ -109,14 +115,14 @@ const postController = {
   // Delete post
   delete: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let postId = req.params.postId;
     try {
       connection = await pool.getConnection();
       let stmt = await connection.prepare(
         `DELETE FROM tattoo_eshop.posts WHERE id = ?`,
-        [id]
+        [postId]
       );
-      await stmt.execute(id);
+      await stmt.execute(postId);
       res.send('Post deleted successfully');
     } catch (err) {
       console.error('Failed to delete post:', err);

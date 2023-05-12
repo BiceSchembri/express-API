@@ -18,7 +18,7 @@ router
 
 // Show, update, delete single post
 router
-  .route('/posts/:id')
+  .route('/posts/:postId')
   .all(postNotFound)
   .get(postController.getOne)
   // User needs to be authenticated and authorized

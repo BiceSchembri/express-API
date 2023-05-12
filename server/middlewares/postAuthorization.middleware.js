@@ -4,7 +4,7 @@ const postAuthorization = async (req, res, next) => {
   let connection;
 
   try {
-    let postId = req.params.id;
+    let postId = req.params.postId;
     let userId = req.user.id;
 
     connection = await pool.getConnection();

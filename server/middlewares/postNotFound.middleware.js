@@ -3,12 +3,12 @@ const pool = require('../configs/db.js');
 
 const postNotFound = async (req, res, next) => {
   let connection;
-  let id = req.params.id;
+  let postId = req.params.postId;
   try {
     connection = await pool.getConnection();
     let result = await connection.query(
       `SELECT * FROM tattoo_eshop.posts WHERE id=?`,
-      [id]
+      [postId]
     );
     if (!result.length) {
       console.log('Post not found, sorry');
