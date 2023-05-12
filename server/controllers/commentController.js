@@ -3,31 +3,31 @@ const pool = require('../configs/db.js');
 
 // Controllers
 const commentController = {
-  // Show all comments
-  getAll: async (req, res) => {
-    let connection;
-    let postId = req.params.postId;
-    console.log(`req.params.postId = ${req.params.postId}`);
-    try {
-      connection = await pool.getConnection();
-      let result = await connection.query(
-        `SELECT * FROM tattoo_eshop.comments WHERE post_id=?`,
-        [postId]
-      );
-      console.log(`Retrieved ${result.length} comments from the database`);
-      res.setHeader('Content-Type', 'application/json');
-      res.send(result);
-    } catch (err) {
-      console.error('Failed to fetch comments from database:', err);
-      res
-        .status(500)
-        .send(
-          '500 - Internal Server Error. Failed to fetch comments from database'
-        );
-    } finally {
-      if (connection) await connection.release();
-    }
-  },
+  // Show all comments - not really needed
+  // getAll: async (req, res) => {
+  //   let connection;
+  //   let postId = req.params.postId;
+  //   console.log(`req.params.postId = ${req.params.postId}`);
+  //   try {
+  //     connection = await pool.getConnection();
+  //     let result = await connection.query(
+  //       `SELECT * FROM tattoo_eshop.comments WHERE post_id=?`,
+  //       [postId]
+  //     );
+  //     console.log(`Retrieved ${result.length} comments from the database`);
+  //     res.setHeader('Content-Type', 'application/json');
+  //     res.send(result);
+  //   } catch (err) {
+  //     console.error('Failed to fetch comments from database:', err);
+  //     res
+  //       .status(500)
+  //       .send(
+  //         '500 - Internal Server Error. Failed to fetch comments from database'
+  //       );
+  //   } finally {
+  //     if (connection) await connection.release();
+  //   }
+  // },
 
   // Show comment
   getOne: async (req, res) => {
@@ -57,17 +57,19 @@ const commentController = {
   //  Add comment
   create: async (req, res) => {
     // Get the request input
-    let { post_id, user_id, body } = req.body;
+    let { body } = req.body;
+    let userId = req.user.id;
+    let postId = req.params.postId;
     let connection;
     try {
       connection = await pool.getConnection();
       let result = await connection.execute(
         `INSERT INTO tattoo_eshop.comments (post_id, user_id, body) VALUES (?, ?, ?)`,
-        [post_id, user_id, body]
+        [postId, userId, body]
       );
-      let id = result.insertId;
+      let commentId = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(id), post_id, user_id, body });
+      res.send({ id: Number(commentId), postId, userId, body });
     } catch (err) {
       console.error('Failed to create new comment:', err);
       res
