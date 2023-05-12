@@ -1,18 +1,9 @@
 const pool = require('../configs/db.js');
 
 const userAuthorization = async (req, res, next) => {
-  let connection;
-
   try {
-    // let userId = req.params.userId;
-    let id = req.user.id;
-
-    connection = await pool.getConnection();
-    let result = await connection.query(
-      `SELECT * FROM tattoo_eshop.users WHERE id=?`,
-      [id]
-    );
-    if (!result.length) {
+    // check if the userId in the cookie token is the same as the profile id that the user is trying to access
+    if (req.params.userId != req.user.id) {
       return res.status(401).send('Not authorized to see this page');
     }
     next();
@@ -20,8 +11,6 @@ const userAuthorization = async (req, res, next) => {
     return res
       .status(401)
       .send('There was an error. You are not authorized to see this page');
-  } finally {
-    if (connection) await connection.release();
   }
 };
 
