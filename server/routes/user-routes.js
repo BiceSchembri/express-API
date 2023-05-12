@@ -2,10 +2,11 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const checkAuthentication = require('../middlewares/checkAuthentication.middleware');
+const isAdmin = require('../middlewares/isAdmin.middleware');
 
 // Admin-specific routes
-// Admin only
-router.route('/users').get(userController.getAll);
+router.route('/users').get(checkAuthentication, isAdmin, userController.getAll);
 
 // Export the router
 module.exports = router;
