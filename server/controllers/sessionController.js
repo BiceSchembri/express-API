@@ -22,10 +22,10 @@ const sessionController = {
         `INSERT INTO tattoo_eshop.users (firstname, lastname, username, email, password) VALUES (?, ?, ?, ?, ?)`,
         [firstname, lastname, username, email, hashedPassword]
       );
-      let id = result.insertId;
+      let userId = result.insertId;
       res.setHeader('Content-Type', 'application/json');
       res.send({
-        id: Number(id),
+        id: Number(userId),
         firstname,
         lastname,
         username,

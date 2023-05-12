@@ -2,8 +2,8 @@
 const pool = require('../configs/db.js');
 const bcrypt = require('bcrypt');
 // const saltRounds = 10;
-const jwt = require('jsonwebtoken');
-const jwt_token = process.env.JWT_ACCESS_TOKEN;
+// const jwt = require('jsonwebtoken');
+// const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
 // Controllers
 const userController = {
@@ -31,13 +31,13 @@ const userController = {
   // Show user profile
   getOne: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let userId = req.params.userId;
     try {
       connection = await pool.getConnection();
 
       let result = await connection.query(
         `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
-        [id]
+        [userId]
       );
 
       res.setHeader('Content-Type', 'application/json');
@@ -57,20 +57,20 @@ const userController = {
   // SHOW USER
   getUserPosts: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let userId = req.params.userId;
     try {
       connection = await pool.getConnection();
 
       // Query to fetch user information (it will be useful for frontend, so the user's info can be shown on top of page for example)
       let userResult = await connection.query(
         `SELECT * FROM tattoo_eshop.users WHERE id = ?`,
-        [id]
+        [userId]
       );
 
       // Query to fetch user's posts
       let postsResult = await connection.query(
         `SELECT * FROM tattoo_eshop.posts WHERE user_id = ?`,
-        [id]
+        [userId]
       );
 
       // Combine results
@@ -93,46 +93,22 @@ const userController = {
     }
   },
 
-  // DELETE USER
-  delete: async (req, res) => {
-    let connection;
-    let id = req.params.id;
-    try {
-      connection = await pool.getConnection();
-      let stmt = await connection.prepare(
-        `DELETE FROM tattoo_eshop.users WHERE id = ?`,
-        [id]
-      );
-      await stmt.execute(id);
-      res.send('User deleted successfully');
-    } catch (err) {
-      console.error('Failed to delete user from database:', err);
-      res
-        .status(500)
-        .send(
-          '500 - Internal Server Error. Failed to delete user from database'
-        );
-    } finally {
-      if (connection) await connection.release();
-    }
-  },
-
   // UPDATE USER
   update: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
-    let id = req.params.id;
+    let userId = req.params.userId;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_eshop.users SET firstname=?, lastname=?, username=?, email=?, password=? WHERE id=?`,
-        [firstname, lastname, username, email, hashedPassword, id]
+        [firstname, lastname, username, email, hashedPassword, userId]
       );
       let result = {
-        id: Number(id),
+        id: Number(userId),
         firstname,
         lastname,
         username,
@@ -147,6 +123,30 @@ const userController = {
         .status(500)
         .send(
           '500 - Internal Server Error. Failed to update user in the database'
+        );
+    } finally {
+      if (connection) await connection.release();
+    }
+  },
+
+  // DELETE USER
+  delete: async (req, res) => {
+    let connection;
+    let userId = req.params.userId;
+    try {
+      connection = await pool.getConnection();
+      let stmt = await connection.prepare(
+        `DELETE FROM tattoo_eshop.users WHERE id = ?`,
+        [userId]
+      );
+      await stmt.execute(userId);
+      res.send('User deleted successfully');
+    } catch (err) {
+      console.error('Failed to delete user from database:', err);
+      res
+        .status(500)
+        .send(
+          '500 - Internal Server Error. Failed to delete user from database'
         );
     } finally {
       if (connection) await connection.release();

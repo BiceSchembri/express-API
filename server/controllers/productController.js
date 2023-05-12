@@ -3,7 +3,7 @@ const pool = require('../configs/db.js');
 
 // Controllers
 const productController = {
-  // Show all records (eshop products / tattoos)
+  // Show all products
   getAll: async (req, res) => {
     let connection;
     try {
@@ -24,15 +24,15 @@ const productController = {
     }
   },
 
-  // Show selected record
+  // Show selected product
   getOne: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let productId = req.params.productId;
     try {
       connection = await pool.getConnection();
       let result = await connection.query(
         `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
-        [id]
+        [productId]
       );
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
@@ -51,14 +51,14 @@ const productController = {
   // Delete selected record
   delete: async (req, res) => {
     let connection;
-    let id = req.params.id;
+    let productId = req.params.productId;
     try {
       connection = await pool.getConnection();
       let stmt = await connection.prepare(
         `DELETE FROM tattoo_eshop.tattoos WHERE id = ?`,
-        [id]
+        [productId]
       );
-      await stmt.execute(id);
+      await stmt.execute(productId);
       res.send('Record deleted successfully');
     } catch (err) {
       console.error('Failed to delete record from database:', err);
@@ -88,9 +88,15 @@ const productController = {
         `INSERT INTO tattoo_eshop.tattoos (title, description, image, price_in_EUR) VALUES (?, ?, ?, ?)`,
         [title, description, image, price_in_EUR]
       );
-      let id = result.insertId;
+      let product = result.insertId;
       res.setHeader('Content-Type', 'application/json');
-      res.send({ id: Number(id), title, description, image, price_in_EUR });
+      res.send({
+        id: Number(productId),
+        title,
+        description,
+        image,
+        price_in_EUR,
+      });
     } catch (err) {
       console.error('Failed to create new record in the database:', err);
       res
@@ -107,16 +113,16 @@ const productController = {
   update: async (req, res) => {
     // Get the request input
     let { title, description, image, price_in_EUR } = req.body;
-    let id = req.params.id;
+    let productId = req.params.productId;
     let connection;
     try {
       connection = await pool.getConnection();
       await connection.execute(
         `UPDATE tattoo_eshop.tattoos SET title=?, description=?, image=?, price_in_EUR=? WHERE id=?`,
-        [title, description, image || null, price_in_EUR, id]
+        [title, description, image || null, price_in_EUR, productId]
       );
       let result = {
-        id: Number(id),
+        id: Number(productId),
         title,
         description,
         image,
