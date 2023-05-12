@@ -3,12 +3,12 @@ const pool = require('../configs/db.js');
 
 const productNotFound = async (req, res, next) => {
   let connection;
-  let id = req.params.id;
+  let productId = req.params.productId;
   try {
     connection = await pool.getConnection();
     let result = await connection.query(
       `SELECT * FROM tattoo_eshop.tattoos WHERE id=?`,
-      [id]
+      [productId]
     );
     if (!result.length) {
       console.log('Product not found, sorry');
