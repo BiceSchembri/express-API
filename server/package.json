@@ -1,5 +1,5 @@
 {
-  "name": "verou-4-backend-express-intro-biceschembri",
+  "name": "express-api-tattoo",
   "version": "1.0.0",
   "description": "Build an e-shop using Express.js",
   "main": "server.js",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri.git"
+    "url": "git+https://github.com/BiceSchembri/express-API-tattoo"
   },
   "keywords": [],
   "author": "Beatrice Schembri",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri/issues"
+    "url": "https://github.com/BiceSchembri/express-API-tattoo/issues"
   },
-  "homepage": "https://github.com/becodeorg/verou-4-backend-express-intro-BiceSchembri#readme",
+  "homepage": "https://github.com/BiceSchembri/express-API-tattoo#readme",
   "dependencies": {
     "bcrypt": "^5.1.0",
     "cookie-parser": "^1.4.6",
