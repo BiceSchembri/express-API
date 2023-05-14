@@ -10,13 +10,31 @@ Link to the deployed version: [here](https://github.com/BiceSchembri/express-API
 
 ---
 
-This project's aim is to build a simple e-shop with CRUD logic using **Express.js**.
+This project was initially developed as an exercise for the BeCode Junior Web Developer course, backend track. Its aim was to build:
+
+- a simple e-shop structure with CRUD logic for the products,
+
+- an authentication system (user registration and login, admin privileges) using JWT tokens,
+
+- a post and comments system.
+
+using the **Express** framework for **Node.js**.
 
 Only the backend part was developed, meaning no HTML/CSS files (client side) were added.
 
 For development and testing purposes, I used the [**Postman API platform**](https://www.postman.com/).
 
-The website would allow users to choose tattoo designs available in a tattoo parlour. Tattoos (in other words, the products) are stored in a database (each one has a title, description and some other information). New records can be created, and existing ones can updated, deleted.
+[<img src="assets/api-products.png">]
+
+The website would allow users to browse throgh tattoo designs. Tattoos (in other words, the products) are stored in a database (each one has a title, description and some other information). New records can be created, and existing ones can updated, deleted.
+
+Users can register and login, access their profile, update and delete it.
+
+[<img src="assets/login.png">]
+
+They can also publish their own posts, and comment under other users's posts. They can edit or delete their own post, and delete their own comments.
+
+Admins can create other admin profiles, as well as perform CRUD operations on users's profiles. They can also delete other users's posts and comments.
 
 ## Requirements
 
@@ -47,19 +65,17 @@ You will need to set up a database containing the records (or products, or tatto
 
 ## Installation
 
-Open your terminal and clone the repository:
+Open your terminal and clone the repository using an SSH key:
 
-`git clone` followed by the name of the repo (use the SSH keys)
+`git clone git@github.com:BiceSchembri/express-API-tattoo.git`
 
 Navigate to the newly cloned project folder:
 
-`cd ...`
+`cd express-API-tattoo`
 
-Install the necessary dependencies in the root of your project by running:
+Install the necessary dependencies in the root of your project:
 
-`npm init -y` to use the default setup, OR
-
-`npm init` and then answer the questions to initialize the **package.json** file.
+`npm install`.
 
 ---
 
@@ -125,7 +141,11 @@ DB_USER= root
 DB_PORT= 3306
 DB_HOST= localhost
 DB_PASSWORD= (your password here)
+JWT_ACCESS_TOKEN= (your access token here)
+
 ```
+
+(To learn more about JWT access tokens, see [here](https://jwt.io/) and [here](https://www.ibm.com/docs/da/order-management?topic=SSGTJF/configuration/t_GeneratingJWTToken.htm)).
 
 ---
 
@@ -183,17 +203,19 @@ route: /products
 }
 ```
 
+[<img src="assets/post-tattoo.png">]
+
 ## Main Features
 
 - Database connection
 - API, data is sent back as JSON
 - CRUD logic
-- Dynamic routes
-- Express routings to group routes
-- MVC structure
+- JWT password authentication
+- Managing privileges
+- Dynamic routes, Express routings
 - Middleware to validate POST requests
 - Middleware for non-existing routes (404 error)
-- Code status responses
+- Appropriate code status responses
 
 ---
 
