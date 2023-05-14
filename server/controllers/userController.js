@@ -1,18 +1,18 @@
 // Imports
 const pool = require('../configs/db.js');
 const bcrypt = require('bcrypt');
-// const saltRounds = 10;
-// const jwt = require('jsonwebtoken');
-// const jwt_token = process.env.JWT_ACCESS_TOKEN;
 
 // Controllers
 const userController = {
-  // SHOW ALL USERS
-  getAll: async (req, res) => {
+  // Show all users that are not admins
+  // This is available to admins only
+  getAllUsers: async (req, res) => {
     let connection;
     try {
       connection = await pool.getConnection();
-      let result = await connection.query(`SELECT * FROM tattoo_eshop.users`);
+      let result = await connection.query(
+        `SELECT * FROM tattoo_eshop.users WHERE tattoo_eshop.users.is_admin =0`
+      );
       console.log(`Retrieved ${result.length} rows from the database`);
       res.setHeader('Content-Type', 'application/json');
       res.send(result);
@@ -28,7 +28,7 @@ const userController = {
     }
   },
 
-  // Show user profile
+  // Show user profile / admin profile
   getOne: async (req, res) => {
     let connection;
     let userId = req.params.userId;
@@ -54,7 +54,7 @@ const userController = {
     }
   },
 
-  // SHOW USER
+  // Show user's posts / admin's posts
   getUserPosts: async (req, res) => {
     let connection;
     let userId = req.params.userId;
@@ -93,7 +93,7 @@ const userController = {
     }
   },
 
-  // UPDATE USER
+  // Update user's profile / admin's profile
   update: async (req, res) => {
     // Get the request input
     let { firstname, lastname, username, email, password } = req.body;
@@ -129,7 +129,7 @@ const userController = {
     }
   },
 
-  // DELETE USER
+  // Delete user's profile / admin's profile
   delete: async (req, res) => {
     let connection;
     let userId = req.params.userId;

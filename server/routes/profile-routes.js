@@ -7,6 +7,7 @@ const checkAuthentication = require('../middlewares/checkAuthentication.middlewa
 const profileAuthorization = require('../middlewares/profileAuthorization.middleware');
 
 // Show, update, delete user profile (user auth)
+// Admins can also perform these actions on users' profiles
 router
   .route('/profile/:userId')
   .all(userNotFound, checkAuthentication, profileAuthorization)

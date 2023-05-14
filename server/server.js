@@ -6,12 +6,12 @@ const dotenv = require('dotenv');
 const cookieParser = require('cookie-parser');
 
 // Import routers
-const productRouter = require('./routes/product-routes');
-const userRouter = require('./routes/user-routes');
 const sessionRouter = require('./routes/session-routes');
-const postRouter = require('./routes/post-routes');
 const profileRouter = require('./routes/profile-routes');
+const adminRouter = require('./routes/admin-routes');
+const postRouter = require('./routes/post-routes');
 const commentRouter = require('./routes/comment-routes');
+const productRouter = require('./routes/product-routes');
 
 // 404 middleware
 const pageNotFound = require('./middlewares/pageNotFound.middleware');
@@ -33,12 +33,12 @@ app.get('/', (req, res) => {
 });
 
 // Use Router
-app.use(productRouter);
-app.use(userRouter);
 app.use(sessionRouter);
 app.use(profileRouter);
+app.use(adminRouter);
 app.use(postRouter);
 app.use(commentRouter);
+app.use(productRouter);
 
 // Mount a 404 middleware for all non-existing routes (this goes at the bottom of the stack)
 app.use(pageNotFound);

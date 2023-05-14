@@ -5,7 +5,9 @@ const sessionController = require('../controllers/sessionController');
 const userValidation = require('../middlewares/userValidation.middleware');
 
 // Register new user
-router.route('/session/signup').post(userValidation, sessionController.create);
+router
+  .route('/session/signup')
+  .post(userValidation, sessionController.createUser);
 
 // Login user
 router

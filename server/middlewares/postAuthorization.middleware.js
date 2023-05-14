@@ -22,7 +22,7 @@ const postAuthorization = async (req, res, next) => {
     );
 
     // Check if user is authorized or has admin privileges
-    if (!result.length && !isAdmin !== 1) {
+    if (!result.length && isAdmin !== 1) {
       return res.status(401).send('Not authorized to modify this post');
     }
     next();
