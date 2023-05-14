@@ -6,7 +6,7 @@ Developed by: Beatrice Schembri
 
 Date: May 2023
 
-Link to the deployed version: [link](link)
+Link to the deployed version: [here](https://github.com/BiceSchembri/express-API-tattoo)
 
 ---
 
