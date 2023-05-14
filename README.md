@@ -65,9 +65,54 @@ Install the necessary dependencies in the root of your project by running:
 
 Now, create a new database called **tattoo_eshop**. It should contain the following tables:
 
-...
-...
-...
+**Users**
+| Name | Datatype | Length/Set | Allow NULL | Default |
+| :---: |:---:| :---:| :---: | :---:|
+| id | INT | 10 | no | AUTO-INCREMENT |
+| firstname | VARCHAR | 255 | no | No default |
+| lastname | VARCHAR | 255 | no | No default |
+| username | VARCHAR | 255 | no | No default |
+| email | VARCHAR | 255 | no | No default |
+| password | TEXT | | no | No default |
+| is_admin | TINYINT | 1 | no | 0 |
+| created_at | TIMESTAMP | | yes | NULL |
+| updated_at | TIMESTAMP | | yes | NULL |
+
+**Tattoos**
+| Name | Datatype | Length/Set | Allow NULL | Default |
+| :---: |:---:| :---:| :---: | :---:|
+| id | INT | 11 | no | AUTO-INCREMENT |
+| title | TEXT | | no | No default |
+| description | TEXT | | no | No default |
+| image | VARCHAR | 255 | yes | NULL |
+| created_at | TIMESTAMP | | yes | current_timestamp() |
+| updated_at | TIMESTAMP | | yes | NULL ON UPDATE current_timestamp()|
+| deleted_at | TIMESTAMP | 255 | yes | No default |
+| price_in_EUR | DECIMAL | 10,2 | yes | NULL |
+
+**Posts**
+| Name | Datatype | Length/Set | Allow NULL | Default |
+| :---: |:---:| :---:| :---: | :---:|
+| id | INT | 10 | no | AUTO-INCREMENT |
+| user_id | INT | 10 | no | No default |
+| title | VARCHAR | 50 | no | No default |
+| body | TEXT | | no | No default |
+| created_at | TIMESTAMP | | yes | NULL |
+| updated_at | TIMESTAMP | | yes | NULL |
+
+**Comments**
+| Name | Datatype | Length/Set | Allow NULL | Default |
+| :---: |:---:| :---:| :---: | :---:|
+| id | INT | 10 | no | AUTO-INCREMENT |
+| post_id | INT | 10 | no | No default |
+| user_id | INT | 10 | no | No default |
+| body | TEXT | | no | No default |
+| created_at | TIMESTAMP | | yes | NULL |
+| updated_at | TIMESTAMP | | yes | NULL |
+
+Note that all id's are set as `primary key`.
+
+Collation: `uft8mb4_unicode_ci`.
 
 ---
 
@@ -115,7 +160,7 @@ Create new routes and specify
 
 Body --> raw --> JSON
 
-### Endpoints
+### Example Endpoints
 
 - GET /products - Get a list of all products
 - POST /products - Create a new product
