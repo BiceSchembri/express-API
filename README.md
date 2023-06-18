@@ -8,6 +8,8 @@ Date: May 2023
 
 Link to the deployed version: [here](https://github.com/BiceSchembri/express-API-tattoo)
 
+Dev.to article on using Postman: [here](https://dev.to/biceschembri/how-i-used-postman-to-test-my-express-api-1bk0)
+
 ---
 
 This project was initially developed as an exercise for the BeCode Junior Web Developer course, backend track. Its aim was to build:
